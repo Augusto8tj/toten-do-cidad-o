@@ -161,7 +161,13 @@ export const translations = {
     printTicket: "Imprimir Senha",
     seeDetails: "Ver Detalhes no Celular",
     locationLabel: "Localização de Atendimento",
-    mainOffice: "Paço Municipal: Praça da Matriz, Centro"
+    mainOffice: "Paço Municipal: Praça da Matriz, Centro",
+    adminPasswordTitle: "Acesso Restrito",
+    adminPasswordLabel: "Digite a senha administrativa para acessar o painel:",
+    adminPasswordPlaceholder: "Senha de acesso...",
+    adminPasswordError: "Senha incorreta! Acesso negado.",
+    confirm: "Confirmar",
+    cancel: "Cancelar"
   },
   en: {
     appName: "Citizen Link",
@@ -208,7 +214,13 @@ export const translations = {
     printTicket: "Print Ticket",
     seeDetails: "See Details on Mobile",
     locationLabel: "Service Location",
-    mainOffice: "City Hall: Matrix Square, Downtown"
+    mainOffice: "City Hall: Matrix Square, Downtown",
+    adminPasswordTitle: "Restricted Access",
+    adminPasswordLabel: "Enter admin password to access the panel:",
+    adminPasswordPlaceholder: "Access password...",
+    adminPasswordError: "Incorrect password! Access denied.",
+    confirm: "Confirm",
+    cancel: "Cancel"
   },
   es: {
     appName: "Enlace del Ciudadano",
@@ -255,7 +267,13 @@ export const translations = {
     printTicket: "Imprimir Turno",
     seeDetails: "Ver Detalles en el Móvil",
     locationLabel: "Ubicación de Atención",
-    mainOffice: "Palacio Municipal: Plaza de la Matriz, Centro"
+    mainOffice: "Palacio Municipal: Plaza de la Matriz, Centro",
+    adminPasswordTitle: "Acceso Restringido",
+    adminPasswordLabel: "Ingrese la contraseña administrativa para acceder al panel:",
+    adminPasswordPlaceholder: "Contraseña de acceso...",
+    adminPasswordError: "¡Contraseña incorrecta! Acceso denegado.",
+    confirm: "Confirmar",
+    cancel: "Cancelar"
   }
 };
 

@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Plus, Trash2, Megaphone, Newspaper, Layout, Sparkles, AlertTriangle, Database, Search, History, ShieldCheck, Edit2 } from "lucide-react"
+import { Plus, Trash2, Megaphone, Newspaper, Layout, Sparkles, AlertTriangle, Database, Search, History, ShieldCheck, Edit2, LogOut } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { generateNewsContent } from '@/ai/flows/admin-news-content-generator'
 import { cn } from '@/lib/utils'
@@ -44,6 +44,7 @@ interface Props {
   screensaverItems: any[];
   addScreensaver: (item: any) => void;
   deleteScreensaver: (id: string) => void;
+  onLogout?: () => void;
 }
 
 const MOCK_AUDIT_LOGS = [
@@ -65,7 +66,8 @@ export function AdminView({
   updateEmergency, 
   screensaverItems, 
   addScreensaver,
-  deleteScreensaver
+  deleteScreensaver,
+  onLogout
 }: Props) {
   const { toast } = useToast();
   const [newNews, setNewNews] = useState({ title: '', content: '', imageUrl: '' });
@@ -139,19 +141,26 @@ export function AdminView({
           <h2 className="text-4xl font-headline font-bold text-primary">Painel Rio Claro - RJ</h2>
           <p className="text-xl text-muted-foreground">Gerencie o conteúdo do Link do Cidadão Rio Claro em tempo real.</p>
         </div>
-        <div className="flex items-center gap-6 bg-red-50 p-6 rounded-3xl border-2 border-red-100">
-           <div className="flex items-center gap-3">
-              <Megaphone className="h-8 w-8 text-red-600" />
-              <div className="flex flex-col">
-                <Label className="text-xl font-bold text-red-900">Alerta Rio Claro</Label>
-                <p className="text-sm text-red-700">Ativa a barra de emergência.</p>
-              </div>
-           </div>
-           <Switch 
-             checked={emergencyAlert.active} 
-             onCheckedChange={(v) => updateEmergency(v, emergencyAlert.message)}
-             className="scale-150 data-[state=checked]:bg-red-600"
-           />
+        <div className="flex items-center gap-6">
+          <div className="flex items-center gap-6 bg-red-50 p-6 rounded-3xl border-2 border-red-100">
+             <div className="flex items-center gap-3">
+                <Megaphone className="h-8 w-8 text-red-600" />
+                <div className="flex flex-col">
+                  <Label className="text-xl font-bold text-red-900">Alerta Rio Claro</Label>
+                  <p className="text-sm text-red-700">Ativa a barra de emergência.</p>
+                </div>
+             </div>
+             <Switch 
+               checked={emergencyAlert.active} 
+               onCheckedChange={(v) => updateEmergency(v, emergencyAlert.message)}
+               className="scale-150 data-[state=checked]:bg-red-600"
+             />
+          </div>
+          {onLogout && (
+            <Button variant="outline" size="lg" onClick={onLogout} className="h-20 px-8 rounded-3xl border-2 gap-3 text-xl font-bold text-slate-600">
+              <LogOut className="h-6 w-6" /> Sair do Painel
+            </Button>
+          )}
         </div>
       </div>
 

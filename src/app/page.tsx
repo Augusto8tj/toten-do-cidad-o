@@ -10,14 +10,32 @@ import { CitizenView } from '@/components/kiosk/CitizenView'
 import { AdminView } from '@/components/kiosk/AdminView'
 import { Toaster } from '@/components/ui/toaster'
 import { cn } from '@/lib/utils'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { useToast } from "@/hooks/use-toast"
+import { Lock } from "lucide-react"
 
 const INACTIVITY_TIMEOUT = 30000; // 30 seconds
+const ADMIN_PASSWORD = "rioclaro2024";
 
 export default function Home() {
   const store = useKioskStore();
+  const { toast } = useToast();
   const [activeTab, setActiveTab] = useState<'citizen' | 'admin'>('citizen');
   const [showScreensaver, setShowScreensaver] = useState(false);
   const [lastActivity, setLastActivity] = useState<number | null>(null);
+  
+  // Admin Authentication State
+  const [isAdminAuthDialogOpen, setIsAdminAuthDialogOpen] = useState(false);
+  const [passwordInput, setPasswordInput] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     setLastActivity(Date.now());
@@ -51,6 +69,35 @@ export default function Home() {
     };
   }, [lastActivity, showScreensaver, resetInactivity, activeTab]);
 
+  const handleAdminClick = () => {
+    if (activeTab === 'admin') return;
+    
+    if (isAuthenticated) {
+      setActiveTab('admin');
+    } else {
+      setIsAdminAuthDialogOpen(true);
+    }
+  };
+
+  const handleLogin = () => {
+    if (passwordInput === ADMIN_PASSWORD) {
+      setIsAuthenticated(true);
+      setActiveTab('admin');
+      setIsAdminAuthDialogOpen(false);
+      setPasswordInput('');
+      toast({
+        title: "Acesso Concedido",
+        description: "Bem-vindo ao painel administrativo.",
+      });
+    } else {
+      toast({
+        variant: "destructive",
+        title: store.t.adminPasswordError,
+      });
+      setPasswordInput('');
+    }
+  };
+
   if (!store.isInitialized) return null;
 
   return (
@@ -80,9 +127,13 @@ export default function Home() {
                 TOTEM
               </button>
               <button 
-                onClick={() => setActiveTab('admin')} 
-                className={cn("text-xs font-bold px-2 py-1 rounded transition-colors", activeTab === 'admin' ? "bg-primary text-white" : "text-slate-400 hover:text-white")}
+                onClick={handleAdminClick} 
+                className={cn(
+                  "text-xs font-bold px-2 py-1 rounded transition-colors flex items-center gap-1", 
+                  activeTab === 'admin' ? "bg-primary text-white" : "text-slate-400 hover:text-white"
+                )}
               >
+                {!isAuthenticated && activeTab !== 'admin' && <Lock className="h-3 w-3" />}
                 ADMIN
               </button>
             </div>
@@ -120,10 +171,46 @@ export default function Home() {
               screensaverItems={store.screensaverItems}
               addScreensaver={store.addScreensaver}
               deleteScreensaver={store.deleteScreensaver}
+              onLogout={() => {
+                setIsAuthenticated(false);
+                setActiveTab('citizen');
+              }}
             />
           )}
         </div>
       </div>
+
+      {/* Admin Password Dialog */}
+      <Dialog open={isAdminAuthDialogOpen} onOpenChange={setIsAdminAuthDialogOpen}>
+        <DialogContent className="sm:max-w-md rounded-[2rem] border-4">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold flex items-center gap-2">
+              <Lock className="h-6 w-6 text-primary" />
+              {store.t.adminPasswordTitle}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            <p className="text-lg text-slate-600 mb-4">{store.t.adminPasswordLabel}</p>
+            <Input 
+              type="password"
+              placeholder={store.t.adminPasswordPlaceholder}
+              value={passwordInput}
+              onChange={(e) => setPasswordInput(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
+              className="h-14 text-xl rounded-xl border-2"
+              autoFocus
+            />
+          </div>
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => setIsAdminAuthDialogOpen(false)} className="h-14 rounded-xl text-lg font-bold">
+              {store.t.cancel}
+            </Button>
+            <Button onClick={handleLogin} className="h-14 rounded-xl text-lg font-bold px-8">
+              {store.t.confirm}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* Overlays */}
       {showScreensaver && activeTab === 'citizen' && (

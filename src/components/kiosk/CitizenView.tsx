@@ -2,9 +2,10 @@
 "use client"
 
 import { useState } from 'react'
-import { Building2, FileText, MessageSquare, Newspaper, Info, Search } from 'lucide-react'
+import { Building2, FileText, MessageSquare, Newspaper, Info, Search, Bot } from 'lucide-react'
 import { Card, CardContent } from "@/components/ui/card"
 import { ServiceDialog } from './ServiceDialog'
+import { AIChatDialog } from './AIChatDialog'
 import { NewsItem, Language } from '@/store/kiosk-store'
 import Image from 'next/image'
 import { Input } from '@/components/ui/input'
@@ -26,6 +27,7 @@ interface Props {
 
 export function CitizenView({ wheelchairMode, news, language, t }: Props) {
   const [selectedService, setSelectedService] = useState<any | null>(null);
+  const [isAiOpen, setIsAiOpen] = useState(false);
   const services = SERVICES(t);
 
   const containerClasses = wheelchairMode 
@@ -57,10 +59,20 @@ export function CitizenView({ wheelchairMode, news, language, t }: Props) {
         
         {/* Services Grid */}
         <div className="col-span-12 lg:col-span-8 space-y-8">
-          <h2 className="text-4xl font-headline font-bold flex items-center gap-3">
-            <Building2 className="h-10 w-10 text-primary" />
-            {t.servicesTitle}
-          </h2>
+          <div className="flex items-center justify-between">
+            <h2 className="text-4xl font-headline font-bold flex items-center gap-3">
+              <Building2 className="h-10 w-10 text-primary" />
+              {t.servicesTitle}
+            </h2>
+            <Button 
+              onClick={() => setIsAiOpen(true)}
+              className="h-16 px-8 rounded-2xl bg-secondary hover:bg-secondary/90 text-white font-bold text-xl gap-3 shadow-lg transition-transform active:scale-95"
+            >
+              <Bot className="h-8 w-8" />
+              Perguntar à IA
+            </Button>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {services.map((service) => (
               <Card 
@@ -88,6 +100,7 @@ export function CitizenView({ wheelchairMode, news, language, t }: Props) {
             <Input 
               placeholder={t.searchPlaceholder} 
               className="h-24 pl-20 text-3xl rounded-3xl border-2 focus-visible:ring-primary bg-white shadow-sm"
+              onFocus={() => setIsAiOpen(true)}
             />
           </div>
         </div>
@@ -130,6 +143,13 @@ export function CitizenView({ wheelchairMode, news, language, t }: Props) {
         isOpen={!!selectedService} 
         onOpenChange={() => setSelectedService(null)} 
         service={selectedService}
+        t={t}
+      />
+
+      <AIChatDialog 
+        isOpen={isAiOpen}
+        onOpenChange={setIsAiOpen}
+        language={language}
         t={t}
       />
     </div>

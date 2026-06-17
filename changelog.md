@@ -1,6 +1,18 @@
+
 # Changelog: Link do Cidadão (Rio Claro - RJ)
 
 Todas as alterações notáveis neste projeto serão documentadas neste arquivo.
+
+## [1.1.0] - 2024-03-06
+### Adicionado
+- **Chat de IA Interativo**: Nova interface de diálogo para o cidadão conversar com o assistente municipal movido a Gemini.
+- **Integração Funcional**: Conexão entre a UI e o fluxo `citizenAIServiceAssistant` do Genkit.
+- **Sugestões Rápidas**: Atalhos de perguntas frequentes dentro do chat de IA para facilitar o uso no totem.
+- **Feedback de Busca**: A barra de busca agora abre automaticamente o assistente de IA para uma experiência mais fluida.
+
+### Melhorado
+- **Acessibilidade**: Ajuste nos botões de controle para melhor visibilidade em telas sensíveis ao toque.
+- **Roadmap**: Atualização do status de implementação no `EscopoDoProjeto.md`.
 
 ## [1.0.0] - 2024-03-05
 ### Adicionado
@@ -9,16 +21,9 @@ Todas as alterações notáveis neste projeto serão documentadas neste arquivo.
 - **Renomeação**: Transição de "Civitas Link" para "Link do Cidadão".
 - **Multilinguismo**: Suporte para Português (Brasil), Inglês e Espanhol.
 - **Acessibilidade**: Implementação do Modo Cadeirante e Modo Alto Contraste.
-- **Assistente AI**: Integração com Google Gemini (Genkit) para dúvidas sobre serviços municipais.
-- **Portal de Serviços**: Atalhos para IPTU, Certidões, Ouvidoria e Saúde.
+- **Assistente AI**: Integração com Google Gemini (Genkit).
 - **Painel Administrativo**: Gestão de notícias, alertas de emergência e screensaver.
-- **Gestão de Alertas**: Banner crítico para comunicados da Defesa Civil.
-- **Documentação**: Criação do `EscopoDoProjeto.md` e atualização do `README.md`.
-- **Auditabilidade**: Registro do repositório GitHub (`toten-do-cidad-o.git`) para logs e transparência.
-
-### Corrigido
-- Erro de importação de módulos do Embla Carousel no Screensaver.
-- Ausência de componentes de imagem no feed de notícias do admin.
+- **Auditabilidade**: Registro do repositório GitHub para logs e transparência.
 
 ---
 *Este registro segue as diretrizes de governança da gestão de Rio Claro - RJ.*

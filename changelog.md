@@ -3,6 +3,12 @@
 
 Todas as alterações notáveis neste projeto serão documentadas neste arquivo.
 
+## [1.2.5] - 2024-03-16
+### Adicionado
+- **Interatividade Completa em Notícias**: O ticker "Plantão Rio Claro" e os cards laterais de notícias agora são clicáveis, permitindo abrir uma visão detalhada de cada conteúdo.
+- **Diálogo de Detalhe de Notícia**: Novo componente para exibir notícias individuais com imagem em destaque, data e texto completo, otimizado para leitura em totem.
+- **Feedback Tátil**: Adição de cursor-pointer e efeitos de escala ao interagir com elementos de notícia.
+
 ## [1.2.4] - 2024-03-15
 ### Adicionado
 - **Feed de Notícias Completo**: Ativação do botão "Ver Todas as Notícias" com um novo componente `NewsDialog` que permite ao cidadão navegar por todo o histórico de atualizações do município.

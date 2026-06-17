@@ -2,11 +2,12 @@
 "use client"
 
 import { useState, useEffect } from 'react'
-import { Building2, FileText, MessageSquare, Newspaper, Info, Search, Bot, ShieldCheck, Globe, TrendingUp, CloudSun } from 'lucide-react'
+import { Building2, FileText, MessageSquare, Newspaper, Info, Search, Bot, ShieldCheck, Globe, TrendingUp, CloudSun, Calendar, X } from 'lucide-react'
 import { Card, CardContent } from "@/components/ui/card"
 import { ServiceDialog } from './ServiceDialog'
 import { AIChatDialog } from './AIChatDialog'
 import { NewsDialog } from './NewsDialog'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog"
 import { NewsItem, Language } from '@/store/kiosk-store'
 import Image from 'next/image'
 import { Input } from '@/components/ui/input'
@@ -73,6 +74,7 @@ interface Props {
 
 export function CitizenView({ wheelchairMode, news, language, t }: Props) {
   const [selectedService, setSelectedService] = useState<any | null>(null);
+  const [selectedNewsDetail, setSelectedNewsDetail] = useState<NewsItem | null>(null);
   const [isAiOpen, setIsAiOpen] = useState(false);
   const [isNewsOpen, setIsNewsOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState<Date | null>(null);
@@ -172,7 +174,7 @@ export function CitizenView({ wheelchairMode, news, language, t }: Props) {
               {services.map((service) => (
                 <Card 
                   key={service.id} 
-                  className="kiosk-card min-h-[220px] flex items-center p-8 active:scale-[0.98]"
+                  className="kiosk-card min-h-[220px] flex items-center p-8 active:scale-[0.98] cursor-pointer"
                   onClick={() => setSelectedService(service)}
                 >
                   <CardContent className="p-0 flex items-center gap-8 w-full">
@@ -199,7 +201,11 @@ export function CitizenView({ wheelchairMode, news, language, t }: Props) {
             </h2>
             <div className="flex flex-col gap-6">
               {news.slice(0, 3).map((item) => (
-                <Card key={item.id} className="kiosk-card overflow-hidden active:scale-[0.98]">
+                <Card 
+                  key={item.id} 
+                  className="kiosk-card overflow-hidden active:scale-[0.98] cursor-pointer"
+                  onClick={() => setSelectedNewsDetail(item)}
+                >
                   <div className="flex h-[180px]">
                     <div className="w-1/3 relative">
                       <Image 
@@ -231,7 +237,10 @@ export function CitizenView({ wheelchairMode, news, language, t }: Props) {
       </div>
 
       {/* Dynamic Bottom Ticker */}
-      <div className="fixed bottom-0 left-0 right-0 h-28 bg-primary text-white flex items-center px-6 md:px-12 shadow-[0_-10px_40px_rgba(0,0,0,0.2)] z-[60]">
+      <div 
+        className="fixed bottom-0 left-0 right-0 h-28 bg-primary text-white flex items-center px-6 md:px-12 shadow-[0_-10px_40px_rgba(0,0,0,0.2)] z-[60] cursor-pointer active:bg-primary/90 transition-colors"
+        onClick={() => news[tickerIndex] && setSelectedNewsDetail(news[tickerIndex])}
+      >
         <div className="flex items-center gap-4 border-r-4 border-white/20 pr-8 mr-8 shrink-0">
           <div className="p-3 bg-white/10 rounded-2xl">
             <TrendingUp className="h-10 w-10 text-secondary" />
@@ -278,6 +287,53 @@ export function CitizenView({ wheelchairMode, news, language, t }: Props) {
         news={news}
         t={t}
       />
+
+      {/* Detail Dialog for individual news items */}
+      <Dialog open={!!selectedNewsDetail} onOpenChange={(open) => !open && setSelectedNewsDetail(null)}>
+        <DialogContent className="max-w-4xl rounded-[3rem] p-0 overflow-hidden border-8 border-primary shadow-2xl">
+          {selectedNewsDetail && (
+            <div className="flex flex-col">
+              <div className="h-80 relative">
+                <Image 
+                  src={selectedNewsDetail.imageUrl} 
+                  alt={selectedNewsDetail.title} 
+                  fill 
+                  className="object-cover" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-10">
+                   <div className="flex flex-col gap-2">
+                      <span className="bg-secondary text-white px-4 py-1 rounded-full text-sm font-bold w-fit uppercase tracking-widest">
+                        {selectedNewsDetail.date}
+                      </span>
+                      <DialogTitle className="text-4xl font-headline font-bold text-white leading-tight">
+                        {selectedNewsDetail.title}
+                      </DialogTitle>
+                   </div>
+                </div>
+                <DialogClose asChild>
+                  <Button variant="ghost" size="icon" className="absolute top-6 right-6 h-12 w-12 rounded-full bg-black/50 text-white hover:bg-black/70">
+                    <X className="h-8 w-8" />
+                  </Button>
+                </DialogClose>
+              </div>
+              <div className="p-10 bg-white">
+                <div className="flex items-center gap-3 text-primary mb-6">
+                  <Calendar className="h-6 w-6" />
+                  <span className="text-xl font-bold">Publicado em: {selectedNewsDetail.date}</span>
+                </div>
+                <p className="text-2xl text-slate-700 leading-relaxed font-medium">
+                  {selectedNewsDetail.content}
+                </p>
+                <div className="mt-10 p-6 bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200">
+                  <p className="text-lg text-muted-foreground text-center italic">
+                    Para mais informações sobre esta notícia, procure a secretaria municipal responsável ou acesse o portal oficial de Rio Claro.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

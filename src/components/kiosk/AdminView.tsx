@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect } from 'react'
@@ -10,9 +11,10 @@ import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Plus, Trash2, Megaphone, Newspaper, Layout, Sparkles, AlertTriangle, Database, ExternalLink } from "lucide-react"
+import { Plus, Trash2, Megaphone, Newspaper, Layout, Sparkles, AlertTriangle, Database, Search, History, ShieldCheck } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { generateNewsContent } from '@/ai/flows/admin-news-content-generator'
+import { cn } from '@/lib/utils'
 
 interface Props {
   news: any[];
@@ -24,12 +26,23 @@ interface Props {
   addScreensaver: (item: any) => void;
 }
 
+const MOCK_AUDIT_LOGS = [
+  { id: 1, date: '16/03/2024 14:30', action: 'Publicação', detail: 'Notícia: Calendário de Eventos 2024 liberado', user: 'Admin-RC' },
+  { id: 2, date: '15/03/2024 10:15', action: 'Emergência', detail: 'Alerta Ativado: Rio Claro em alerta de tempestade', user: 'Defesa Civil' },
+  { id: 3, date: '14/03/2024 16:45', action: 'Configuração', detail: 'Novo slide adicionado: Festão do Peão 2024', user: 'Turismo-RC' },
+  { id: 4, date: '13/03/2024 09:00', action: 'Sistema', detail: 'Atualização V1.2.5 - Otimização de Resposta IA', user: 'TI Municipal' },
+  { id: 5, date: '12/03/2024 11:20', action: 'Publicação', detail: 'Notícia: Mutirão de Saúde no distrito de Passa Três', user: 'Saúde-RC' },
+  { id: 6, date: '11/03/2024 15:30', action: 'Segurança', detail: 'Acesso Administrativo detectado: Unidade Centro-Sul', user: 'Segurança-RC' },
+  { id: 7, date: '10/03/2024 08:45', action: 'Configuração', detail: 'Idioma Espanhol (ES) atualizado para V1.2', user: 'Comunicação' },
+];
+
 export function AdminView({ news, addNews, deleteNews, emergencyAlert, updateEmergency, screensaverItems, addScreensaver }: Props) {
   const { toast } = useToast();
   const [newNews, setNewNews] = useState({ title: '', content: '', imageUrl: '' });
   const [newSlide, setNewSlide] = useState({ imageUrl: '', caption: '' });
   const [isGenerating, setIsGenerating] = useState(false);
   const [currentTime, setCurrentTime] = useState<string | null>(null);
+  const [auditSearch, setAuditSearch] = useState('');
 
   useEffect(() => {
     setCurrentTime(new Date().toLocaleTimeString());
@@ -66,12 +79,18 @@ export function AdminView({ news, addNews, deleteNews, emergencyAlert, updateEme
     }
   };
 
+  const filteredLogs = MOCK_AUDIT_LOGS.filter(log => 
+    log.action.toLowerCase().includes(auditSearch.toLowerCase()) || 
+    log.detail.toLowerCase().includes(auditSearch.toLowerCase()) ||
+    log.user.toLowerCase().includes(auditSearch.toLowerCase())
+  );
+
   return (
     <div className="p-12 h-screen bg-slate-50 flex flex-col gap-8 overflow-y-auto">
       <div className="flex justify-between items-center bg-white p-8 rounded-[2rem] shadow-sm border">
         <div>
           <h2 className="text-4xl font-headline font-bold text-primary">Painel Rio Claro - RJ</h2>
-          <p className="text-xl text-muted-foreground">Gerencie o conteúdo do Civitas Link Rio Claro em tempo real.</p>
+          <p className="text-xl text-muted-foreground">Gerencie o conteúdo do Link do Cidadão Rio Claro em tempo real.</p>
         </div>
         <div className="flex items-center gap-6 bg-red-50 p-6 rounded-3xl border-2 border-red-100">
            <div className="flex items-center gap-3">
@@ -101,7 +120,7 @@ export function AdminView({ news, addNews, deleteNews, emergencyAlert, updateEme
              <AlertTriangle className="mr-2" /> Emergência
           </TabsTrigger>
           <TabsTrigger value="system" className="h-full px-8 text-xl font-bold data-[state=active]:bg-primary data-[state=active]:text-white rounded-xl">
-             <Database className="mr-2" /> Sistema
+             <ShieldCheck className="mr-2" /> Auditoria
           </TabsTrigger>
         </TabsList>
 
@@ -274,52 +293,95 @@ export function AdminView({ news, addNews, deleteNews, emergencyAlert, updateEme
         </TabsContent>
 
         <TabsContent value="system">
-           <Card className="rounded-[2rem] border-2 border-slate-200">
-              <CardHeader className="p-8">
-                 <CardTitle className="text-3xl font-headline flex items-center gap-4">
-                    <Database className="h-10 w-10 text-primary" />
-                    Configurações do Sistema
-                 </CardTitle>
-                 <CardDescription className="text-lg">Registro oficial de Rio Claro - RJ e auditoria.</CardDescription>
-              </CardHeader>
-              <CardContent className="p-8 space-y-8">
-                 <div className="p-8 bg-slate-50 border-2 border-dashed rounded-[2rem] flex flex-col gap-6">
-                    <div className="space-y-2">
-                      <h4 className="text-2xl font-bold text-slate-800">Repositório de Registros</h4>
-                      <p className="text-lg text-muted-foreground">Utilizado para auditoria e logs de operação do Civitas Link Rio Claro.</p>
+           <Card className="rounded-[2rem] border-2 border-slate-200 overflow-hidden">
+              <CardHeader className="p-8 bg-slate-50 border-b">
+                 <div className="flex justify-between items-center">
+                    <div>
+                        <CardTitle className="text-3xl font-headline flex items-center gap-4">
+                            <ShieldCheck className="h-10 w-10 text-primary" />
+                            Auditoria do Sistema
+                        </CardTitle>
+                        <CardDescription className="text-lg">Histórico completo de ações, notícias e lançamentos no totem.</CardDescription>
                     </div>
-                    <div className="bg-white p-6 rounded-2xl border shadow-sm flex items-center justify-between">
-                       <code className="text-lg font-mono text-primary break-all">https://github.com/Augusto8tj/toten-do-cidad-o.git</code>
-                       <Button asChild variant="outline" className="h-14 px-8 text-lg border-2">
-                          <a href="https://github.com/Augusto8tj/toten-do-cidad-o.git" target="_blank" rel="noopener noreferrer">
-                             <ExternalLink className="mr-2 h-6 w-6" /> Abrir GitHub
-                          </a>
-                       </Button>
+                    <div className="relative w-96">
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-6 w-6 text-muted-foreground" />
+                        <Input 
+                            placeholder="Pesquisar histórico..." 
+                            className="h-14 pl-12 text-lg rounded-xl border-2"
+                            value={auditSearch}
+                            onChange={(e) => setAuditSearch(e.target.value)}
+                        />
                     </div>
                  </div>
-
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div className="p-6 border rounded-2xl bg-white space-y-4">
-                       <h5 className="font-bold text-xl">Status da Unidade</h5>
-                       <div className="flex justify-between items-center py-2 border-b">
-                          <span className="text-muted-foreground">ID da Unidade</span>
-                          <span className="font-mono">#RC-001-CENTRO</span>
-                       </div>
-                       <div className="flex justify-between items-center py-2 border-b">
-                          <span className="text-muted-foreground">Localização</span>
-                          <span className="font-bold">Rio Claro - RJ</span>
-                       </div>
+              </CardHeader>
+              <CardContent className="p-0">
+                 <ScrollArea className="h-[500px]">
+                    <div className="p-8">
+                        <div className="grid grid-cols-1 gap-4">
+                            {filteredLogs.length > 0 ? filteredLogs.map(log => (
+                                <div key={log.id} className="p-6 bg-white border-2 rounded-2xl flex items-center gap-6 hover:border-primary/30 transition-colors">
+                                    <div className={cn(
+                                        "p-4 rounded-xl",
+                                        log.action === 'Emergência' ? "bg-red-100 text-red-600" :
+                                        log.action === 'Publicação' ? "bg-blue-100 text-blue-600" :
+                                        log.action === 'Sistema' ? "bg-slate-100 text-slate-600" : "bg-emerald-100 text-emerald-600"
+                                    )}>
+                                        {log.action === 'Emergência' ? <Megaphone className="h-8 w-8" /> :
+                                         log.action === 'Publicação' ? <Newspaper className="h-8 w-8" /> :
+                                         log.action === 'Sistema' ? <Database className="h-8 w-8" /> : <History className="h-8 w-8" />}
+                                    </div>
+                                    <div className="flex-1 flex flex-col">
+                                        <div className="flex justify-between items-center mb-1">
+                                            <span className="font-bold text-xl text-slate-900">{log.action}</span>
+                                            <span className="text-sm font-mono text-muted-foreground bg-slate-50 px-3 py-1 rounded-full border">{log.date}</span>
+                                        </div>
+                                        <p className="text-lg text-slate-600 mb-2">{log.detail}</p>
+                                        <div className="flex items-center gap-2">
+                                            <div className="h-2 w-2 rounded-full bg-primary" />
+                                            <span className="text-xs font-bold uppercase tracking-widest text-primary/60">Responsável: {log.user}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            )) : (
+                                <div className="text-center py-20 bg-slate-50 rounded-3xl border-2 border-dashed">
+                                    <Search className="h-16 w-16 mx-auto text-slate-300 mb-4" />
+                                    <p className="text-2xl font-bold text-slate-400">Nenhum registro encontrado para "{auditSearch}"</p>
+                                </div>
+                            )}
+                        </div>
                     </div>
-                    <div className="p-6 border rounded-2xl bg-white space-y-4">
-                       <h5 className="font-bold text-xl">Sincronização</h5>
-                       <div className="flex justify-between items-center py-2 border-b">
-                          <span className="text-muted-foreground">Última Atualização</span>
-                          <span>Hoje, {currentTime || '--:--'}</span>
-                       </div>
-                       <div className="flex justify-between items-center py-2 border-b">
-                          <span className="text-muted-foreground">Servidor</span>
-                          <span className="text-green-600 font-bold">CONECTADO</span>
-                       </div>
+                 </ScrollArea>
+                 
+                 <div className="p-8 bg-slate-50 border-t-2">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div className="p-6 border-2 rounded-2xl bg-white space-y-4">
+                            <h5 className="font-bold text-xl flex items-center gap-2">
+                                <Database className="h-6 w-6 text-primary" /> Status da Unidade
+                            </h5>
+                            <div className="flex justify-between items-center py-2 border-b">
+                                <span className="text-muted-foreground">ID da Unidade</span>
+                                <span className="font-mono text-primary font-bold">#RC-001-CENTRO</span>
+                            </div>
+                            <div className="flex justify-between items-center py-2 border-b">
+                                <span className="text-muted-foreground">Localização</span>
+                                <span className="font-bold">Rio Claro - RJ</span>
+                            </div>
+                        </div>
+                        <div className="p-6 border-2 rounded-2xl bg-white space-y-4">
+                            <h5 className="font-bold text-xl flex items-center gap-2">
+                                <History className="h-6 w-6 text-primary" /> Sincronização
+                            </h5>
+                            <div className="flex justify-between items-center py-2 border-b">
+                                <span className="text-muted-foreground">Última Auditoria</span>
+                                <span>Hoje, {currentTime || '--:--'}</span>
+                            </div>
+                            <div className="flex justify-between items-center py-2 border-b">
+                                <span className="text-muted-foreground">Modo de Registro</span>
+                                <span className="text-green-600 font-bold uppercase text-sm flex items-center gap-1">
+                                    <ShieldCheck className="h-4 w-4" /> Ativo & Protegido
+                                </span>
+                            </div>
+                        </div>
                     </div>
                  </div>
               </CardContent>

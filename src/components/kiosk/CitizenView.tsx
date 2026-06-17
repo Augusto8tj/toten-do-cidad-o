@@ -1,7 +1,6 @@
-
 "use client"
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Building2, FileText, MessageSquare, Newspaper, Info, Search, Bot } from 'lucide-react'
 import { Card, CardContent } from "@/components/ui/card"
 import { ServiceDialog } from './ServiceDialog'
@@ -28,7 +27,14 @@ interface Props {
 export function CitizenView({ wheelchairMode, news, language, t }: Props) {
   const [selectedService, setSelectedService] = useState<any | null>(null);
   const [isAiOpen, setIsAiOpen] = useState(false);
+  const [currentTime, setCurrentTime] = useState<Date | null>(null);
   const services = GET_SERVICES(t);
+
+  useEffect(() => {
+    setCurrentTime(new Date());
+    const timer = setInterval(() => setCurrentTime(new Date()), 60000);
+    return () => clearInterval(timer);
+  }, []);
 
   const containerClasses = wheelchairMode 
     ? "h-screen flex flex-col justify-end pb-12 px-12 gap-8" 
@@ -43,13 +49,17 @@ export function CitizenView({ wheelchairMode, news, language, t }: Props) {
             <h1 className="text-6xl font-headline font-bold text-primary">{t.appName}</h1>
             <p className="text-2xl text-muted-foreground mt-2">{t.tagline}</p>
           </div>
-          <div className="text-right">
-            <p className="text-4xl font-headline font-bold text-primary">
-              {new Date().toLocaleTimeString(language === 'pt' ? 'pt-BR' : 'en-US', { hour: '2-digit', minute: '2-digit' })}
-            </p>
-            <p className="text-xl font-medium text-muted-foreground">
-              {new Date().toLocaleDateString(language === 'pt' ? 'pt-BR' : 'en-US', { weekday: 'long', day: 'numeric', month: 'long' })}
-            </p>
+          <div className="text-right min-w-[200px]">
+            {currentTime && (
+              <>
+                <p className="text-4xl font-headline font-bold text-primary">
+                  {currentTime.toLocaleTimeString(language === 'pt' ? 'pt-BR' : 'en-US', { hour: '2-digit', minute: '2-digit' })}
+                </p>
+                <p className="text-xl font-medium text-muted-foreground">
+                  {currentTime.toLocaleDateString(language === 'pt' ? 'pt-BR' : 'en-US', { weekday: 'long', day: 'numeric', month: 'long' })}
+                </p>
+              </>
+            )}
           </div>
         </div>
       )}

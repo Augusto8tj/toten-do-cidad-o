@@ -1,7 +1,6 @@
-
 "use client"
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
@@ -30,6 +29,11 @@ export function AdminView({ news, addNews, deleteNews, emergencyAlert, updateEme
   const [newNews, setNewNews] = useState({ title: '', content: '', imageUrl: '' });
   const [newSlide, setNewSlide] = useState({ imageUrl: '', caption: '' });
   const [isGenerating, setIsGenerating] = useState(false);
+  const [currentTime, setCurrentTime] = useState<string | null>(null);
+
+  useEffect(() => {
+    setCurrentTime(new Date().toLocaleTimeString());
+  }, []);
 
   const handleAddNews = () => {
     if (!newNews.title || !newNews.content) {
@@ -310,7 +314,7 @@ export function AdminView({ news, addNews, deleteNews, emergencyAlert, updateEme
                        <h5 className="font-bold text-xl">Sincronização</h5>
                        <div className="flex justify-between items-center py-2 border-b">
                           <span className="text-muted-foreground">Última Atualização</span>
-                          <span>Hoje, {new Date().toLocaleTimeString()}</span>
+                          <span>Hoje, {currentTime || '--:--'}</span>
                        </div>
                        <div className="flex justify-between items-center py-2 border-b">
                           <span className="text-muted-foreground">Servidor</span>

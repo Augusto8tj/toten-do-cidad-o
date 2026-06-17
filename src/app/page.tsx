@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useEffect, useCallback } from 'react'
@@ -17,7 +16,11 @@ export default function Home() {
   const store = useKioskStore();
   const [activeTab, setActiveTab] = useState<'citizen' | 'admin'>('citizen');
   const [showScreensaver, setShowScreensaver] = useState(false);
-  const [lastActivity, setLastActivity] = useState(Date.now());
+  const [lastActivity, setLastActivity] = useState<number | null>(null);
+
+  useEffect(() => {
+    setLastActivity(Date.now());
+  }, []);
 
   const resetInactivity = useCallback(() => {
     setLastActivity(Date.now());
@@ -27,7 +30,7 @@ export default function Home() {
   }, [showScreensaver]);
 
   useEffect(() => {
-    if (activeTab === 'admin') {
+    if (activeTab === 'admin' || lastActivity === null) {
       setShowScreensaver(false);
       return;
     }

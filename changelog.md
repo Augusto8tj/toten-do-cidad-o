@@ -3,6 +3,13 @@
 
 Todas as alterações notáveis neste projeto serão documentadas neste arquivo.
 
+## [1.2.0] - 2024-03-11
+### Adicionado
+- **Assistência por Voz (TTS)**: Implementação de síntese de fala (Gemini TTS) no chat da IA, permitindo que o cidadão ouça as respostas do assistente municipal.
+- **Clima em Tempo Real**: Adição de um widget de clima no cabeçalho da visão do cidadão, exibindo a temperatura atual em Rio Claro.
+- **Acessibilidade Auditiva**: Novo controle de áudio dentro do chat para reproduzir/pausar a voz da IA.
+- **Roadmap Atualizado**: Inclusão de novas metas no `EscopoDoProjeto.md`.
+
 ## [1.1.4] - 2024-03-10
 ### Adicionado
 - **Conteúdo Institucional**: Expansão do feed de notícias locais com 6 novas entradas cobrindo saúde, infraestrutura em Lídice e Passa Três, turismo na Cachoeira do Salto e educação técnica.
@@ -22,7 +29,7 @@ Todas as alterações notáveis neste projeto serão documentadas neste arquivo.
 ## [1.1.1] - 2024-03-07
 ### Adicionado
 - **Links Institucionais**: Integração de acesso rápido ao Portal da Transparência e ao Site Oficial da Prefeitura de Rio Claro.
-- **Novos Cards de Serviço**: Implementação de cards informativos com QR Code para os novos links institucionais.
+- **Novos Ativos de Serviço**: Implementação de cards informativos com QR Code para os novos links institucionais.
 
 ## [1.1.0] - 2024-03-06
 ### Adicionado

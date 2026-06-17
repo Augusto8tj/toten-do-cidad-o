@@ -2,7 +2,7 @@
 "use client"
 
 import { useState, useEffect } from 'react'
-import { Building2, FileText, MessageSquare, Newspaper, Info, Search, Bot, ShieldCheck, Globe, TrendingUp } from 'lucide-react'
+import { Building2, FileText, MessageSquare, Newspaper, Info, Search, Bot, ShieldCheck, Globe, TrendingUp, CloudSun } from 'lucide-react'
 import { Card, CardContent } from "@/components/ui/card"
 import { ServiceDialog } from './ServiceDialog'
 import { AIChatDialog } from './AIChatDialog'
@@ -41,12 +41,11 @@ export function CitizenView({ wheelchairMode, news, language, t }: Props) {
     return () => clearInterval(timer);
   }, []);
 
-  // News rotation logic for the bottom ticker
   useEffect(() => {
     if (news.length === 0) return;
     const tickerTimer = setInterval(() => {
       setTickerIndex((prev) => (prev + 1) % news.length);
-    }, 3000); // Rotates every 3 seconds for readability
+    }, 3000);
     return () => clearInterval(tickerTimer);
   }, [news]);
 
@@ -56,12 +55,21 @@ export function CitizenView({ wheelchairMode, news, language, t }: Props) {
 
   return (
     <div className={cn("relative", containerClasses)}>
-      {/* Header Info */}
       {!wheelchairMode && (
         <div className="flex justify-between items-end border-b pb-8">
-          <div>
-            <h1 className="text-6xl font-headline font-bold text-primary">{t.appName}</h1>
-            <p className="text-2xl text-muted-foreground mt-2">{t.tagline}</p>
+          <div className="flex items-center gap-6">
+            <div>
+              <h1 className="text-6xl font-headline font-bold text-primary">{t.appName}</h1>
+              <p className="text-2xl text-muted-foreground mt-2">{t.tagline}</p>
+            </div>
+            <div className="h-20 w-px bg-border mx-4" />
+            <div className="flex items-center gap-3 bg-secondary/10 p-4 rounded-2xl border border-secondary/20">
+              <CloudSun className="h-10 w-10 text-secondary" />
+              <div>
+                <p className="text-3xl font-bold text-secondary">27°C</p>
+                <p className="text-sm font-medium text-secondary/80">Rio Claro - RJ</p>
+              </div>
+            </div>
           </div>
           <div className="text-right min-w-[200px]">
             {currentTime && (
@@ -78,10 +86,7 @@ export function CitizenView({ wheelchairMode, news, language, t }: Props) {
         </div>
       )}
 
-      {/* Main Grid Section */}
       <div className="grid grid-cols-12 gap-10">
-        
-        {/* Services Grid */}
         <div className="col-span-12 lg:col-span-8 space-y-8">
           <div className="flex items-center justify-between">
             <h2 className="text-4xl font-headline font-bold flex items-center gap-3">
@@ -129,7 +134,6 @@ export function CitizenView({ wheelchairMode, news, language, t }: Props) {
           </div>
         </div>
 
-        {/* News Feed Side (Static highlights) */}
         <div className="col-span-12 lg:col-span-4 space-y-8">
           <h2 className="text-4xl font-headline font-bold flex items-center gap-3">
             <Newspaper className="h-10 w-10 text-primary" />
@@ -163,7 +167,6 @@ export function CitizenView({ wheelchairMode, news, language, t }: Props) {
         </div>
       </div>
 
-      {/* Dynamic News Ticker at the bottom */}
       <div className={cn(
         "fixed left-0 right-0 h-24 bg-primary text-white flex items-center px-12 shadow-2xl z-40 transition-all",
         wheelchairMode ? "bottom-0" : "bottom-0"

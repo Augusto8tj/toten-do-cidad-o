@@ -6,14 +6,16 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Bot, Send, User, Loader2, X } from "lucide-react"
+import { Bot, Send, User, Loader2, Volume2, VolumeX } from "lucide-react"
 import { citizenAIServiceAssistant } from '@/ai/flows/citizen-ai-service-assistant'
+import { textToSpeech } from '@/ai/flows/text-to-speech-flow'
 import { Language } from '@/store/kiosk-store'
 import { cn } from '@/lib/utils'
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
+  audioUrl?: string;
 }
 
 interface Props {
@@ -27,7 +29,9 @@ export function AIChatDialog({ isOpen, onOpenChange, language, t }: Props) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState<number | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -58,9 +62,31 @@ export function AIChatDialog({ isOpen, onOpenChange, language, t }: Props) {
     }
   };
 
+  const playAudio = async (text: string, index: number) => {
+    if (isSpeaking === index) {
+      audioRef.current?.pause();
+      setIsSpeaking(null);
+      return;
+    }
+
+    setIsSpeaking(index);
+    try {
+      const { audioUri } = await textToSpeech({ text });
+      if (audioRef.current) {
+        audioRef.current.src = audioUri;
+        audioRef.current.play();
+        audioRef.current.onended = () => setIsSpeaking(null);
+      }
+    } catch (error) {
+      console.error("TTS Error:", error);
+      setIsSpeaking(null);
+    }
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-4xl h-[80vh] flex flex-col p-0 rounded-[2rem] overflow-hidden border-4 border-primary">
+        <audio ref={audioRef} hidden />
         <DialogHeader className="p-8 bg-primary text-white flex-row items-center justify-between space-y-0">
           <div className="flex items-center gap-4">
             <div className="p-3 bg-white/20 rounded-2xl">
@@ -109,10 +135,20 @@ export function AIChatDialog({ isOpen, onOpenChange, language, t }: Props) {
                     {m.role === 'user' ? <User className="h-6 w-6" /> : <Bot className="h-6 w-6" />}
                   </div>
                   <div className={cn(
-                    "max-w-[80%] p-6 rounded-3xl text-xl leading-relaxed shadow-sm",
+                    "max-w-[80%] p-6 rounded-3xl text-xl leading-relaxed shadow-sm relative group",
                     m.role === 'user' ? "bg-primary text-white rounded-tr-none" : "bg-white border-2 rounded-tl-none"
                   )}>
                     {m.content}
+                    {m.role === 'assistant' && (
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="absolute -right-14 top-0 h-12 w-12 rounded-xl border-2 bg-white"
+                        onClick={() => playAudio(m.content, i)}
+                      >
+                        {isSpeaking === i ? <VolumeX className="h-6 w-6 text-primary" /> : <Volume2 className="h-6 w-6 text-primary" />}
+                      </Button>
+                    )}
                   </div>
                 </div>
               ))}

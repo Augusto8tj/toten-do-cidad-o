@@ -2,11 +2,12 @@
 "use client"
 
 import { AlertTriangle } from "lucide-react"
+import { TranslationType } from "@/store/kiosk-store"
 
 interface Props {
   active: boolean;
   message: string;
-  t: any;
+  t: TranslationType;
 }
 
 export function EmergencyBanner({ active, message, t }: Props) {

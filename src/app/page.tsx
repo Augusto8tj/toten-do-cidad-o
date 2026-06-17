@@ -20,7 +20,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useToast } from "@/hooks/use-toast"
-import { Lock, ChevronDown, ChevronUp } from "lucide-react"
+import { Lock, ChevronUp } from "lucide-react"
 
 const INACTIVITY_TIMEOUT = 30000; // 30 seconds
 const ADMIN_PASSWORD = "rioclaro2024";

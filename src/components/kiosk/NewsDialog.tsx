@@ -1,9 +1,10 @@
+
 "use client"
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Button } from "@/components/ui/button"
-import { NewsItem } from "@/store/kiosk-store"
+import { NewsItem, TranslationType } from "@/store/kiosk-store"
 import { Newspaper, X, Calendar } from "lucide-react"
 import Image from "next/image"
 
@@ -11,7 +12,7 @@ interface Props {
   isOpen: boolean;
   onOpenChange: (v: boolean) => void;
   news: NewsItem[];
-  t: any;
+  t: TranslationType;
 }
 
 export function NewsDialog({ isOpen, onOpenChange, news, t }: Props) {

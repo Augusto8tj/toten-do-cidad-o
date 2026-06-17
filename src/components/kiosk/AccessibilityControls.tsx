@@ -3,7 +3,7 @@
 
 import { Button } from "@/components/ui/button"
 import { Eye, Accessibility, Globe } from "lucide-react"
-import { Language } from "@/store/kiosk-store"
+import { Language, TranslationType } from "@/store/kiosk-store"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,7 +19,7 @@ interface Props {
   language: Language;
   setLanguage: (lang: Language) => void;
   isAdmin?: boolean;
-  t: any;
+  t: TranslationType;
 }
 
 export function AccessibilityControls({ 

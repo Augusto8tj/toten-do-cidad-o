@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect } from 'react'
@@ -14,6 +15,7 @@ import { Plus, Trash2, Megaphone, Newspaper, Layout, Sparkles, AlertTriangle, Da
 import { useToast } from "@/hooks/use-toast"
 import { generateNewsContent } from '@/ai/flows/admin-news-content-generator'
 import { cn } from '@/lib/utils'
+import { NewsItem, ScreensaverItem, EmergencyAlert } from '@/store/kiosk-store'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -34,14 +36,14 @@ import {
 } from "@/components/ui/dialog"
 
 interface Props {
-  news: any[];
-  addNews: (n: any) => void;
-  updateNews: (id: string, n: any) => void;
+  news: NewsItem[];
+  addNews: (n: Omit<NewsItem, 'id' | 'date'>) => void;
+  updateNews: (id: string, n: Partial<NewsItem>) => void;
   deleteNews: (id: string) => void;
-  emergencyAlert: any;
+  emergencyAlert: EmergencyAlert;
   updateEmergency: (active: boolean, message: string) => void;
-  screensaverItems: any[];
-  addScreensaver: (item: any) => void;
+  screensaverItems: ScreensaverItem[];
+  addScreensaver: (item: Omit<ScreensaverItem, 'id'>) => void;
   deleteScreensaver: (id: string) => void;
   onLogout?: () => void;
 }
@@ -70,7 +72,7 @@ export function AdminView({
 }: Props) {
   const { toast } = useToast();
   const [newNews, setNewNews] = useState({ title: '', content: '', imageUrl: '' });
-  const [editingNews, setEditingNews] = useState<any | null>(null);
+  const [editingNews, setEditingNews] = useState<NewsItem | null>(null);
   const [newSlide, setNewSlide] = useState({ imageUrl: '', caption: '' });
   const [isGenerating, setIsGenerating] = useState(false);
   const [currentTime, setCurrentTime] = useState<string | null>(null);
@@ -91,7 +93,7 @@ export function AdminView({
   };
 
   const handleUpdateNews = () => {
-    if (!editingNews.title || !editingNews.content) {
+    if (!editingNews || !editingNews.title || !editingNews.content) {
       toast({ title: "Erro", description: "Título e conteúdo são obrigatórios." });
       return;
     }
@@ -114,13 +116,13 @@ export function AdminView({
     setIsGenerating(true);
     try {
       const result = await generateNewsContent({ articleContent: content });
-      if (isEditing) {
+      if (isEditing && editingNews) {
         setEditingNews({ ...editingNews, title: result.headline, content: result.summary });
       } else {
         setNewNews({ ...newNews, title: result.headline, content: result.summary });
       }
       toast({ title: "AI Otimizada", description: "Título e resumo gerados para o totem de Rio Claro." });
-    } catch (e) {
+    } catch {
       toast({ title: "Erro AI", description: "Não foi possível gerar conteúdo via AI." });
     } finally {
       setIsGenerating(false);
@@ -514,7 +516,7 @@ export function AdminView({
               <Label className="text-xl font-bold">Título da Notícia</Label>
               <Input 
                 value={editingNews?.title || ''}
-                onChange={e => setEditingNews({...editingNews, title: e.target.value})}
+                onChange={e => editingNews && setEditingNews({...editingNews, title: e.target.value})}
                 className="h-16 text-xl rounded-xl"
               />
             </div>
@@ -535,14 +537,14 @@ export function AdminView({
               <Textarea 
                 className="min-h-[200px] text-xl rounded-xl"
                 value={editingNews?.content || ''}
-                onChange={e => setEditingNews({...editingNews, content: e.target.value})}
+                onChange={e => editingNews && setEditingNews({...editingNews, content: e.target.value})}
               />
             </div>
             <div className="space-y-2">
               <Label className="text-xl font-bold">URL da Imagem</Label>
               <Input 
                 value={editingNews?.imageUrl || ''}
-                onChange={e => setEditingNews({...editingNews, imageUrl: e.target.value})}
+                onChange={e => editingNews && setEditingNews({...editingNews, imageUrl: e.target.value})}
                 className="h-16 text-xl rounded-xl"
               />
             </div>

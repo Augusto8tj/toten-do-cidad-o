@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useRef, useEffect } from 'react'
@@ -8,7 +9,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Bot, Send, User, Loader2, Volume2, VolumeX, X } from "lucide-react"
 import { citizenAIServiceAssistant } from '@/ai/flows/citizen-ai-service-assistant'
 import { textToSpeech } from '@/ai/flows/text-to-speech-flow'
-import { Language } from '@/store/kiosk-store'
+import { Language, TranslationType } from '@/store/kiosk-store'
 import { cn } from '@/lib/utils'
 
 interface Message {
@@ -21,7 +22,7 @@ interface Props {
   isOpen: boolean;
   onOpenChange: (v: boolean) => void;
   language: Language;
-  t: any;
+  t: TranslationType;
 }
 
 export function AIChatDialog({ isOpen, onOpenChange, language, t }: Props) {
@@ -54,7 +55,7 @@ export function AIChatDialog({ isOpen, onOpenChange, language, t }: Props) {
       });
       
       setMessages(prev => [...prev, { role: 'assistant', content: response.answer }]);
-    } catch (error) {
+    } catch {
       setMessages(prev => [...prev, { role: 'assistant', content: t.errorAi }]);
     } finally {
       setIsLoading(false);

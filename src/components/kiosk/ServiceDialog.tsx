@@ -4,6 +4,7 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from "@/components/ui/dialog"
 import { QrCode, ExternalLink, Printer, MapPin, CheckCircle2, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { TranslationType } from "@/store/kiosk-store"
 
 interface Props {
   isOpen: boolean;
@@ -14,7 +15,7 @@ interface Props {
     url: string;
     steps?: string[];
   } | null;
-  t: any;
+  t: TranslationType;
 }
 
 export function ServiceDialog({ isOpen, onOpenChange, service, t }: Props) {

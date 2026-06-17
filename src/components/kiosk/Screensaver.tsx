@@ -2,14 +2,14 @@
 "use client"
 
 import Image from 'next/image'
-import { ScreensaverItem } from '@/store/kiosk-store'
+import { ScreensaverItem, TranslationType } from '@/store/kiosk-store'
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
 import Autoplay from 'embla-carousel-autoplay'
 
 interface Props {
   items: ScreensaverItem[];
   onDismiss: () => void;
-  t: any;
+  t: TranslationType;
 }
 
 export function Screensaver({ items, onDismiss, t }: Props) {

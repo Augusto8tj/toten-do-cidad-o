@@ -19,6 +19,11 @@ export type ScreensaverItem = {
   caption?: string;
 }
 
+export type EmergencyAlert = {
+  active: boolean;
+  message: string;
+}
+
 const DEFAULT_NEWS: NewsItem[] = [
   {
     id: '1',
@@ -143,6 +148,7 @@ export const translations = {
     certDesc: "Certidões negativas e documentos municipais.",
     certSteps: ["Informe o CPF ou CNPJ", "Selecione o tipo de certidão (Negativa, Imóvel, etc)", "Certidão emitida na hora com código de autenticidade"],
     ouvidTitle: "Ouvidoria",
+    ouvidTitleFull: "Fale com a Ouvidoria",
     ouvidDesc: "Fale com a Prefeitura: sugestões ou reclamações.",
     ouvidSteps: ["Escolha o tipo: Elogio, Reclamação ou Sugestão", "Anexe fotos se necessário (via QR Code)", "Guarde seu protocolo de atendimento"],
     saudeTitle: "Agendamento Saúde",
@@ -196,6 +202,7 @@ export const translations = {
     certDesc: "Negative certificates and city documents.",
     certSteps: ["Enter CPF or CNPJ", "Select certificate type", "Instant issuance with authenticity code"],
     ouvidTitle: "Ombudsman",
+    ouvidTitleFull: "Speak with the Ombudsman",
     ouvidDesc: "Talk to City Hall: suggestions or complaints.",
     ouvidSteps: ["Select type: Praise, Complaint or Suggestion", "Attach photos if needed (via QR Code)", "Keep your ticket number"],
     saudeTitle: "Health Booking",
@@ -249,6 +256,7 @@ export const translations = {
     certDesc: "Certificados negativos y documentos municipales.",
     certSteps: ["Ingrese CPF o CNPJ", "Seleccione el tipo de certificado", "Emisión instantánea con código de autenticidad"],
     ouvidTitle: "Defensoría",
+    ouvidTitleFull: "Hablar con la Defensoría",
     ouvidDesc: "Hable con la Alcaldía: sugerencias o quejas.",
     ouvidSteps: ["Elija tipo: Elogio, Queja o Sugerencia", "Adjunte fotos si es necesario (vía QR Code)", "Guarde su número de protocolo"],
     saudeTitle: "Citas Médicas",
@@ -256,7 +264,7 @@ export const translations = {
     saudeSteps: ["Presente su Carnet de Salud SUS", "Elija la unidad de salud más cercana", "Confirme el horario disponible en la red municipal"],
     transpTitle: "Transparencia",
     transpDesc: "Monitorear la gestão de los recursos públicos municipales.",
-    transpSteps: ["Acceda a ingresos y gastos en tempo real", "Consulte licitaciones abiertas", "Siga los salarios de los empleados municipales"],
+    transpSteps: ["Acceda a ingresos y gastos en tempo real", "Consulte licitaciones abertas", "Siga los salarios de los empleados municipales"],
     officialTitle: "Sitio Oficial",
     officialDesc: "Acceda al portal completo de la Alcaldía de Rio Claro.",
     officialSteps: ["Portal oficial con noticias institucionales", "Enlaces al diario oficial y edictos", "Teléfonos de todas las secretarías"],
@@ -277,11 +285,13 @@ export const translations = {
   }
 };
 
+export type TranslationType = typeof translations.pt;
+
 export function useKioskStore() {
   const [language, setLanguage] = useState<Language>('pt');
   const [highContrast, setHighContrast] = useState(false);
   const [wheelchairMode, setWheelchairMode] = useState(false);
-  const [emergencyAlert, setEmergencyAlert] = useState({ active: false, message: '' });
+  const [emergencyAlert, setEmergencyAlert] = useState<EmergencyAlert>({ active: false, message: '' });
   const [news, setNews] = useState<NewsItem[]>([]);
   const [screensaverItems, setScreensaverItems] = useState<ScreensaverItem[]>([]);
   const [isInitialized, setIsInitialized] = useState(false);

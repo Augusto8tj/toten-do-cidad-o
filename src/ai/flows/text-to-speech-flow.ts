@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview A Genkit flow for converting text to speech using Gemini TTS.
@@ -31,9 +32,9 @@ async function toWav(
       bitDepth: sampleWidth * 8,
     });
 
-    const bufs = [] as any[];
+    const bufs: Buffer[] = [];
     writer.on('error', reject);
-    writer.on('data', function (d) {
+    writer.on('data', function (d: Buffer) {
       bufs.push(d);
     });
     writer.on('end', function () {

@@ -7,14 +7,23 @@ import { Card, CardContent } from "@/components/ui/card"
 import { ServiceDialog } from './ServiceDialog'
 import { AIChatDialog } from './AIChatDialog'
 import { NewsDialog } from './NewsDialog'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog"
-import { NewsItem, Language } from '@/store/kiosk-store'
+import { Dialog, DialogContent, DialogTitle, DialogClose } from "@/components/ui/dialog"
+import { NewsItem, Language, TranslationType } from '@/store/kiosk-store'
 import Image from 'next/image'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
-const GET_SERVICES = (t: any) => [
+interface ServiceItem {
+  id: string;
+  title: string;
+  icon: any;
+  description: string;
+  url: string;
+  steps: string[];
+}
+
+const GET_SERVICES = (t: TranslationType): ServiceItem[] => [
   { 
     id: 'iptu', 
     title: t.iptuTitle, 
@@ -69,11 +78,11 @@ interface Props {
   wheelchairMode: boolean;
   news: NewsItem[];
   language: Language;
-  t: any;
+  t: TranslationType;
 }
 
 export function CitizenView({ wheelchairMode, news, language, t }: Props) {
-  const [selectedService, setSelectedService] = useState<any | null>(null);
+  const [selectedService, setSelectedService] = useState<ServiceItem | null>(null);
   const [selectedNewsDetail, setSelectedNewsDetail] = useState<NewsItem | null>(null);
   const [isAiOpen, setIsAiOpen] = useState(false);
   const [isNewsOpen, setIsNewsOpen] = useState(false);

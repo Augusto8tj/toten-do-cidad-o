@@ -3,7 +3,7 @@ import type {Metadata} from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Civitas Link - Rio Claro - RJ',
+  title: 'Link do Cidadão - Rio Claro - RJ',
   description: 'Portal interativo de autoatendimento da Prefeitura Municipal de Rio Claro - RJ',
 };
 

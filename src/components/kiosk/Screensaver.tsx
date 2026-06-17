@@ -1,7 +1,6 @@
 
 "use client"
 
-import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { ScreensaverItem } from '@/store/kiosk-store'
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
@@ -10,9 +9,10 @@ import Autoplay from 'embla-carousel-autoplay'
 interface Props {
   items: ScreensaverItem[];
   onDismiss: () => void;
+  t: any;
 }
 
-export function Screensaver({ items, onDismiss }: Props) {
+export function Screensaver({ items, onDismiss, t }: Props) {
   return (
     <div 
       className="fixed inset-0 z-[200] bg-black cursor-pointer overflow-hidden"
@@ -41,7 +41,7 @@ export function Screensaver({ items, onDismiss }: Props) {
                   {item.caption}
                 </h2>
                 <p className="text-white/80 text-3xl font-medium animate-pulse">
-                  Toque na tela para começar
+                  {t.touchToStart}
                 </p>
               </div>
             </CarouselItem>

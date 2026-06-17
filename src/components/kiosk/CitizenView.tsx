@@ -2,28 +2,31 @@
 "use client"
 
 import { useState } from 'react'
-import { Building2, FileText, MessageSquare, Newspaper, Calendar, Info, Search } from 'lucide-react'
+import { Building2, FileText, MessageSquare, Newspaper, Info, Search } from 'lucide-react'
 import { Card, CardContent } from "@/components/ui/card"
 import { ServiceDialog } from './ServiceDialog'
-import { NewsItem } from '@/store/kiosk-store'
+import { NewsItem, Language } from '@/store/kiosk-store'
 import Image from 'next/image'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 
-const SERVICES = [
-  { id: 'iptu', title: 'IPTU', icon: Building2, description: 'Emita a 2ª via do seu IPTU de Rio Claro.', url: 'https://rioclaro.rj.gov.br/iptu' },
-  { id: 'cert', title: 'Certidões', icon: FileText, description: 'Certidões negativas, de débitos e outros documentos municipais.', url: 'https://rioclaro.rj.gov.br/certidoes' },
-  { id: 'ouvid', title: 'Ouvidoria', icon: MessageSquare, description: 'Fale com a Prefeitura: sugestões, reclamações ou elogios.', url: 'https://rioclaro.rj.gov.br/ouvidoria' },
-  { id: 'saude', title: 'Agendamento Saúde', icon: Info, description: 'Marque consultas e exames nas unidades de Rio Claro.', url: 'https://rioclaro.rj.gov.br/saude' },
+const SERVICES = (t: any) => [
+  { id: 'iptu', title: 'IPTU', icon: Building2, description: t.iptuDesc || 'Emita a 2ª via do seu IPTU de Rio Claro.', url: 'https://rioclaro.rj.gov.br/iptu' },
+  { id: 'cert', title: 'Certidões', icon: FileText, description: t.certDesc || 'Certidões negativas, de débitos e outros documentos municipais.', url: 'https://rioclaro.rj.gov.br/certidoes' },
+  { id: 'ouvid', title: 'Ouvidoria', icon: MessageSquare, description: t.ouvidDesc || 'Fale com a Prefeitura: sugestões, reclamações ou elogios.', url: 'https://rioclaro.rj.gov.br/ouvidoria' },
+  { id: 'saude', title: 'Agendamento Saúde', icon: Info, description: t.saudeDesc || 'Marque consultas e exames nas unidades de Rio Claro.', url: 'https://rioclaro.rj.gov.br/saude' },
 ];
 
 interface Props {
   wheelchairMode: boolean;
   news: NewsItem[];
+  language: Language;
+  t: any;
 }
 
-export function CitizenView({ wheelchairMode, news }: Props) {
-  const [selectedService, setSelectedService] = useState<typeof SERVICES[0] | null>(null);
+export function CitizenView({ wheelchairMode, news, language, t }: Props) {
+  const [selectedService, setSelectedService] = useState<any | null>(null);
+  const services = SERVICES(t);
 
   const containerClasses = wheelchairMode 
     ? "h-screen flex flex-col justify-end pb-12 px-12 gap-8" 
@@ -35,15 +38,15 @@ export function CitizenView({ wheelchairMode, news }: Props) {
       {!wheelchairMode && (
         <div className="flex justify-between items-end border-b pb-8">
           <div>
-            <h1 className="text-6xl font-headline font-bold text-primary">Civitas Link</h1>
-            <p className="text-2xl text-muted-foreground mt-2">Rio Claro - RJ | Portal de Serviços e Informação</p>
+            <h1 className="text-6xl font-headline font-bold text-primary">{t.appName}</h1>
+            <p className="text-2xl text-muted-foreground mt-2">{t.tagline}</p>
           </div>
           <div className="text-right">
             <p className="text-4xl font-headline font-bold text-primary">
-              {new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
+              {new Date().toLocaleTimeString(language === 'pt' ? 'pt-BR' : 'en-US', { hour: '2-digit', minute: '2-digit' })}
             </p>
             <p className="text-xl font-medium text-muted-foreground">
-              {new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' })}
+              {new Date().toLocaleDateString(language === 'pt' ? 'pt-BR' : 'en-US', { weekday: 'long', day: 'numeric', month: 'long' })}
             </p>
           </div>
         </div>
@@ -56,10 +59,10 @@ export function CitizenView({ wheelchairMode, news }: Props) {
         <div className="col-span-12 lg:col-span-8 space-y-8">
           <h2 className="text-4xl font-headline font-bold flex items-center gap-3">
             <Building2 className="h-10 w-10 text-primary" />
-            Serviços Rio Claro
+            {t.servicesTitle}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {SERVICES.map((service) => (
+            {services.map((service) => (
               <Card 
                 key={service.id} 
                 className="cursor-pointer border-2 hover:border-primary hover:shadow-xl transition-all h-[240px] flex items-center p-8 rounded-[2rem]"
@@ -83,7 +86,7 @@ export function CitizenView({ wheelchairMode, news }: Props) {
           <div className="relative group mt-8">
             <Search className="absolute left-6 top-1/2 -translate-y-1/2 h-10 w-10 text-muted-foreground" />
             <Input 
-              placeholder="Pesquisar serviços em Rio Claro..." 
+              placeholder={t.searchPlaceholder} 
               className="h-24 pl-20 text-3xl rounded-3xl border-2 focus-visible:ring-primary bg-white shadow-sm"
             />
           </div>
@@ -93,7 +96,7 @@ export function CitizenView({ wheelchairMode, news }: Props) {
         <div className="col-span-12 lg:col-span-4 space-y-8">
           <h2 className="text-4xl font-headline font-bold flex items-center gap-3">
             <Newspaper className="h-10 w-10 text-primary" />
-            Notícias Locais
+            {t.newsTitle}
           </h2>
           <div className="flex flex-col gap-6">
             {news.slice(0, 3).map((item) => (
@@ -117,7 +120,7 @@ export function CitizenView({ wheelchairMode, news }: Props) {
               </Card>
             ))}
             <Button variant="outline" className="kiosk-button w-full border-2 text-xl mt-4">
-              Ver Todas as Notícias de Rio Claro
+              {t.allNews}
             </Button>
           </div>
         </div>
@@ -127,6 +130,7 @@ export function CitizenView({ wheelchairMode, news }: Props) {
         isOpen={!!selectedService} 
         onOpenChange={() => setSelectedService(null)} 
         service={selectedService}
+        t={t}
       />
     </div>
   )

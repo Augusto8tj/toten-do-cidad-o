@@ -8,7 +8,6 @@ import { EmergencyBanner } from '@/components/kiosk/EmergencyBanner'
 import { Screensaver } from '@/components/kiosk/Screensaver'
 import { CitizenView } from '@/components/kiosk/CitizenView'
 import { AdminView } from '@/components/kiosk/AdminView'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Toaster } from '@/components/ui/toaster'
 import { cn } from '@/lib/utils'
 
@@ -16,7 +15,7 @@ const INACTIVITY_TIMEOUT = 30000; // 30 seconds
 
 export default function Home() {
   const store = useKioskStore();
-  const [activeTab, setActiveTab] = useState('citizen');
+  const [activeTab, setActiveTab] = useState<'citizen' | 'admin'>('citizen');
   const [showScreensaver, setShowScreensaver] = useState(false);
   const [lastActivity, setLastActivity] = useState(Date.now());
 
@@ -39,15 +38,12 @@ export default function Home() {
       }
     }, 1000);
 
-    window.addEventListener('mousemove', resetInactivity);
-    window.addEventListener('touchstart', resetInactivity);
-    window.addEventListener('keydown', resetInactivity);
+    const events = ['mousemove', 'touchstart', 'keydown'];
+    events.forEach(e => window.addEventListener(e, resetInactivity));
 
     return () => {
       clearInterval(interval);
-      window.removeEventListener('mousemove', resetInactivity);
-      window.removeEventListener('touchstart', resetInactivity);
-      window.removeEventListener('keydown', resetInactivity);
+      events.forEach(e => window.removeEventListener(e, resetInactivity));
     };
   }, [lastActivity, showScreensaver, resetInactivity, activeTab]);
 
@@ -58,29 +54,32 @@ export default function Home() {
       "min-h-screen relative overflow-hidden bg-cool-gray selection:bg-primary selection:text-white",
       store.highContrast && "high-contrast"
     )}>
-      {/* Top Banner (Always first) */}
+      {/* Top Banner */}
       <EmergencyBanner 
         active={store.emergencyAlert.active} 
         message={store.emergencyAlert.message} 
+        t={store.t}
       />
 
       <div className="flex flex-col h-screen">
         {/* Navigation & Accessibility */}
         <div className="flex flex-col">
           <div className="bg-slate-900 h-10 flex items-center px-4 justify-between">
-            <span className="text-slate-400 text-xs font-mono uppercase tracking-widest">Unidade: #RC-001-CENTRO-SUL | Rio Claro - RJ</span>
+            <span className="text-slate-400 text-xs font-mono uppercase tracking-widest">
+              {store.t.unit}: #RC-001-CENTRO-SUL | Rio Claro - RJ
+            </span>
             <div className="flex gap-4">
               <button 
                 onClick={() => setActiveTab('citizen')} 
                 className={cn("text-xs font-bold px-2 py-1 rounded transition-colors", activeTab === 'citizen' ? "bg-primary text-white" : "text-slate-400 hover:text-white")}
               >
-                MODO TOTEM
+                TOTEM
               </button>
               <button 
                 onClick={() => setActiveTab('admin')} 
                 className={cn("text-xs font-bold px-2 py-1 rounded transition-colors", activeTab === 'admin' ? "bg-primary text-white" : "text-slate-400 hover:text-white")}
               >
-                MODO ADMIN
+                ADMIN
               </button>
             </div>
           </div>
@@ -90,7 +89,10 @@ export default function Home() {
             setHighContrast={store.setHighContrast}
             wheelchairMode={store.wheelchairMode}
             setWheelchairMode={store.setWheelchairMode}
+            language={store.language}
+            setLanguage={store.changeLanguage}
             isAdmin={activeTab === 'admin'}
+            t={store.t}
           />
         </div>
 
@@ -100,6 +102,8 @@ export default function Home() {
             <CitizenView 
               wheelchairMode={store.wheelchairMode} 
               news={store.news} 
+              language={store.language}
+              t={store.t}
             />
           ) : (
             <AdminView 
@@ -120,6 +124,7 @@ export default function Home() {
         <Screensaver 
           items={store.screensaverItems} 
           onDismiss={resetInactivity} 
+          t={store.t}
         />
       )}
 

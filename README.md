@@ -1,14 +1,15 @@
 
-# Civitas Link - Totem do Cidadão (Rio Claro - RJ)
+# Link do Cidadão - Totem Municipal (Rio Claro - RJ)
 
-O **Civitas Link** é uma plataforma interativa de autoatendimento desenvolvida especificamente para a **Prefeitura Municipal de Rio Claro - RJ**. Projetada para totens e quiosques públicos, ela moderniza o acesso à informação e serviços municipais.
+O **Link do Cidadão** (anteriormente Civitas Link) é uma plataforma interativa de autoatendimento desenvolvida especificamente para a **Prefeitura Municipal de Rio Claro - RJ**. Projetada para totens e quiosques públicos, ela moderniza o acesso à informação e serviços municipais.
 
 ## 🚀 Funcionalidades Principais
 
 - **Portal de Serviços Rio Claro**: Acesso simplificado a serviços como IPTU, Certidões, Ouvidoria e Agendamento de Saúde municipal.
-- **Assistente AI Rio Claro**: Chat inteligente integrado via Genkit (Gemini) treinado para responder dúvidas sobre serviços da prefeitura local.
+- **Assistente AI Rio Claro**: Chat inteligente integrado via Genkit (Gemini) que agora suporta **Português, Inglês e Espanhol**.
 - **Feed de Notícias Locais**: Central de notícias de Rio Claro com gerador de resumos via IA.
 - **Sistema de Alerta Municipal**: Banner crítico para avisos da Defesa Civil de Rio Claro em tempo real.
+- **Multilinguismo**: Suporte nativo para troca de idioma em tempo real (PT, EN, ES) para atender turistas e visitantes.
 - **Acessibilidade Inclusiva**:
   - **Modo Cadeirante**: UI adaptada para telas sensíveis ao toque em baixa altura.
   - **Alto Contraste**: Otimização visual para cidadãos com baixa visão.

@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useEffect } from 'react'
@@ -274,7 +273,7 @@ export function AdminView({
                                 <AlertDialogHeader>
                                   <AlertDialogTitle className="text-2xl font-bold">Confirmar exclusão?</AlertDialogTitle>
                                   <AlertDialogDescription className="text-lg">
-                                    Esta ação removerá a notícia "{n.title}" permanentemente do totem de Rio Claro.
+                                    Esta ação removerá a notícia &quot;{n.title}&quot; permanentemente do totem de Rio Claro.
                                   </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter className="gap-4">
@@ -460,7 +459,7 @@ export function AdminView({
                             )) : (
                                 <div className="text-center py-20 bg-slate-50 rounded-3xl border-2 border-dashed">
                                     <Search className="h-16 w-16 mx-auto text-slate-300 mb-4" />
-                                    <p className="text-2xl font-bold text-slate-400">Nenhum registro encontrado para "{auditSearch}"</p>
+                                    <p className="text-2xl font-bold text-slate-400">Nenhum registro encontrado para &quot;{auditSearch}&quot;</p>
                                 </div>
                             )}
                         </div>

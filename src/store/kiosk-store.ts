@@ -23,23 +23,44 @@ const DEFAULT_NEWS: NewsItem[] = [
   {
     id: '1',
     title: 'Calendário de Eventos 2024 liberado',
-    content: 'Prepare-se para as festas tradicionais de Rio Claro! Festa da União e Festa da Paz confirmadas para este semestre.',
+    content: 'Prepare-se para as festas tradicionais de Rio Claro! Festa da União e Festa da Paz confirmadas para este semestre com shows nacionais e regionais.',
     imageUrl: 'https://picsum.photos/seed/calendar/800/600',
     date: 'Hoje'
   },
   {
     id: '2',
     title: 'Inscrições para a Corte do Festão do Peão',
-    content: 'Estão abertas as inscrições para Rainha e Princesas do Festão do Peão Boiadeiro de Rio Claro.',
+    content: 'Estão abertas as inscrições para Rainha e Princesas do Festão do Peão Boiadeiro de Rio Claro. Participe da tradição sertaneja do nosso município.',
     imageUrl: 'https://picsum.photos/seed/peao-news/800/600',
     date: 'Ontem'
   },
   {
     id: '3',
-    title: 'Mutirão de Saúde no Centro',
-    content: 'Neste sábado, atendimento especial para consultas e vacinação na Praça da Matriz.',
+    title: 'Mutirão de Saúde no Centro e Passa Três',
+    content: 'Neste sábado, atendimento especial para consultas e vacinação na Praça da Matriz e no distrito de Passa Três. Não esqueça o cartão do SUS.',
     imageUrl: 'https://picsum.photos/seed/health/800/600',
     date: '05 Mar'
+  },
+  {
+    id: '4',
+    title: 'Nova Iluminação LED chega a Lídice',
+    content: 'A Prefeitura concluiu a instalação de novas luminárias de LED no distrito de Lídice, garantindo mais segurança e economia para a população.',
+    imageUrl: 'https://picsum.photos/seed/light/800/600',
+    date: '04 Mar'
+  },
+  {
+    id: '5',
+    title: 'Inauguração do Centro de Capacitação',
+    content: 'O novo Centro de Capacitação Profissional de Rio Claro oferece cursos gratuitos de informática e gestão. Inscrições abertas na sede da prefeitura.',
+    imageUrl: 'https://picsum.photos/seed/learn/800/600',
+    date: '03 Mar'
+  },
+  {
+    id: '6',
+    title: 'Preservação da Cachoeira do Salto',
+    content: 'Projeto de sinalização turística e preservação ambiental é iniciado na Cachoeira do Salto para promover o turismo sustentável em Rio Claro.',
+    imageUrl: 'https://picsum.photos/seed/nature/800/600',
+    date: '02 Mar'
   }
 ];
 
@@ -165,7 +186,7 @@ export const translations = {
     ouvidDesc: "Hable con la Alcaldía: sugerencias o quejas.",
     saudeTitle: "Citas Médicas",
     saudeDesc: "Reserve citas en las unidades de Rio Claro.",
-    transpTitle: "Transparencia",
+    transpTitle: "Transparency",
     transpDesc: "Monitorear la gestión de los recursos públicos municipales.",
     officialTitle: "Sitio Oficial",
     officialDesc: "Acceda al portal completo de la Alcaldía de Rio Claro.",

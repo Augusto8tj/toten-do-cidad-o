@@ -3,6 +3,11 @@
 
 Todas as alterações notáveis neste projeto serão documentadas neste arquivo.
 
+## [1.1.4] - 2024-03-10
+### Adicionado
+- **Conteúdo Institucional**: Expansão do feed de notícias locais com 6 novas entradas cobrindo saúde, infraestrutura em Lídice e Passa Três, turismo na Cachoeira do Salto e educação técnica.
+- **Enriquecimento de Demonstração**: Dados realistas preparados especificamente para a apresentação oficial à Prefeitura de Rio Claro.
+
 ## [1.1.3] - 2024-03-09
 ### Adicionado
 - **Plantão Rio Claro**: Implementação de um ticker de notícias dinâmico na parte inferior da tela que rotaciona as novidades do município a cada 3 segundos.

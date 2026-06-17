@@ -3,6 +3,11 @@
 
 Todas as alterações notáveis neste projeto serão documentadas neste arquivo.
 
+## [1.2.1] - 2024-03-12
+### Adicionado
+- **Expansão de Dados Mock**: Inclusão de 4 novas notícias detalhadas sobre segurança pública (Câmeras de Monitoramento), infraestrutura viária (RJ-155), agricultura em Getulândia e educação (Escolas Conectadas).
+- **Conteúdo Territorial**: Foco maior nos distritos de Rio Claro para uma demonstração mais inclusiva geograficamente.
+
 ## [1.2.0] - 2024-03-11
 ### Adicionado
 - **Assistência por Voz (TTS)**: Implementação de síntese de fala (Gemini TTS) no chat da IA, permitindo que o cidadão ouça as respostas do assistente municipal.
@@ -52,6 +57,3 @@ Todas as alterações notáveis neste projeto serão documentadas neste arquivo.
 - **Assistente AI**: Integração com Google Gemini (Genkit).
 - **Painel Administrativo**: Gestão de notícias, alertas de emergência e screensaver.
 - **Auditabilidade**: Registro do repositório GitHub para logs e transparência.
-
----
-*Este registro segue as diretrizes de governança da gestão de Rio Claro - RJ.*

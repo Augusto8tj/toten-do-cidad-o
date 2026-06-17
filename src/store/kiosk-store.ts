@@ -32,35 +32,63 @@ const DEFAULT_NEWS: NewsItem[] = [
     title: 'Inscrições para a Corte do Festão do Peão',
     content: 'Estão abertas as inscrições para Rainha e Princesas do Festão do Peão Boiadeiro de Rio Claro. Participe da tradição sertaneja do nosso município.',
     imageUrl: 'https://picsum.photos/seed/peao-news/800/600',
-    date: 'Ontem'
+    date: 'Hoje'
   },
   {
     id: '3',
+    title: 'Modernização da RJ-155 em Rio Claro',
+    content: 'As obras de pavimentação e sinalização no trecho urbano da RJ-155 avançam, garantindo mais segurança para quem trafega entre Rio Claro e Angra.',
+    imageUrl: 'https://picsum.photos/seed/road/800/600',
+    date: 'Ontem'
+  },
+  {
+    id: '4',
+    title: 'Apoio ao Produtor Rural em Getulândia',
+    content: 'A Secretaria de Agricultura iniciou a entrega de sementes e oferece suporte técnico mecanizado para os produtores do distrito de Getulândia.',
+    imageUrl: 'https://picsum.photos/seed/farm/800/600',
+    date: 'Ontem'
+  },
+  {
+    id: '5',
     title: 'Mutirão de Saúde no Centro e Passa Três',
     content: 'Neste sábado, atendimento especial para consultas e vacinação na Praça da Matriz e no distrito de Passa Três. Não esqueça o cartão do SUS.',
     imageUrl: 'https://picsum.photos/seed/health/800/600',
     date: '05 Mar'
   },
   {
-    id: '4',
+    id: '6',
     title: 'Nova Iluminação LED chega a Lídice',
     content: 'A Prefeitura concluiu a instalação de novas luminárias de LED no distrito de Lídice, garantindo mais segurança e economia para a população.',
     imageUrl: 'https://picsum.photos/seed/light/800/600',
     date: '04 Mar'
   },
   {
-    id: '5',
-    title: 'Inauguração do Centro de Capacitação',
-    content: 'O novo Centro de Capacitação Profissional de Rio Claro oferece cursos gratuitos de informática e gestão. Inscrições abertas na sede da prefeitura.',
-    imageUrl: 'https://picsum.photos/seed/learn/800/600',
+    id: '7',
+    title: 'Escolas Conectadas em Rio Claro',
+    content: 'Alunos da rede municipal começam a receber tablets com conteúdo pedagógico offline para auxiliar nos estudos e inclusão digital.',
+    imageUrl: 'https://picsum.photos/seed/edu/800/600',
     date: '03 Mar'
   },
   {
-    id: '6',
+    id: '8',
     title: 'Preservação da Cachoeira do Salto',
     content: 'Projeto de sinalização turística e preservação ambiental é iniciado na Cachoeira do Salto para promover o turismo sustentável em Rio Claro.',
     imageUrl: 'https://picsum.photos/seed/nature/800/600',
     date: '02 Mar'
+  },
+  {
+    id: '9',
+    title: 'Novas Câmeras de Monitoramento',
+    content: 'O Centro de Comando de Rio Claro agora conta com 20 novas câmeras de alta resolução cobrindo as principais entradas e saídas da cidade.',
+    imageUrl: 'https://picsum.photos/seed/security/800/600',
+    date: '01 Mar'
+  },
+  {
+    id: '10',
+    title: 'Feira do Produtor na Praça da Matriz',
+    content: 'Venha prestigiar o melhor da nossa terra! Todos os domingos, produtos frescos e artesanato local direto dos distritos para você.',
+    imageUrl: 'https://picsum.photos/seed/market/800/600',
+    date: '28 Fev'
   }
 ];
 
@@ -187,7 +215,7 @@ export const translations = {
     saudeTitle: "Citas Médicas",
     saudeDesc: "Reserve citas en las unidades de Rio Claro.",
     transpTitle: "Transparency",
-    transpDesc: "Monitorear la gestión de los recursos públicos municipales.",
+    transpDesc: "Monitorear la gestão de los recursos públicos municipales.",
     officialTitle: "Sitio Oficial",
     officialDesc: "Acceda al portal completo de la Alcaldía de Rio Claro.",
     askAi: "Preguntar a la IA",

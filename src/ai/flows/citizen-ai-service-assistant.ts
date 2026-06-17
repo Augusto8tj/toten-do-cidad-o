@@ -1,61 +1,45 @@
 
 'use server';
 /**
- * @fileOverview A Genkit flow for an AI service assistant that answers citizen questions about city services in Rio Claro - RJ.
- * Follows SGov FluxoSaúde standard for structured output.
+ * @fileOverview Assistente de IA para o cidadão de Rio Claro - RJ.
+ * Migrado para o Padrão SGov FluxoSaúde (OpenRouter/Nemotron).
  */
 
-import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import { aiService } from '@/ai/openrouter-service';
+import { z } from 'zod';
 
 const CitizenAIServiceAssistantInputSchema = z.object({
-  question: z.string().describe('The natural language question about city services in Rio Claro - RJ.'),
-  language: z.enum(['pt', 'en', 'es']).default('pt').describe('The language in which the answer should be provided.'),
+  question: z.string(),
+  language: z.enum(['pt', 'en', 'es']).default('pt'),
 });
 export type CitizenAIServiceAssistantInput = z.infer<typeof CitizenAIServiceAssistantInputSchema>;
 
 const CitizenAIServiceAssistantOutputSchema = z.object({
-  answer: z.string().describe('A concise and accurate answer to the citizen\'s question.'),
+  answer: z.string(),
 });
 export type CitizenAIServiceAssistantOutput = z.infer<typeof CitizenAIServiceAssistantOutputSchema>;
-
-const citizenServicePrompt = ai.definePrompt({
-  name: 'citizenServicePrompt',
-  input: {schema: CitizenAIServiceAssistantInputSchema},
-  output: {schema: CitizenAIServiceAssistantOutputSchema},
-  prompt: `You are an AI assistant for the City Hall of Rio Claro - RJ, designed for a public interactive kiosk named "Link do Cidadão".
-Your goal is to help citizens quickly find information about municipal services.
-
-Context:
-- Location: Rio Claro, State of Rio de Janeiro (RJ), Brazil.
-- Focus: Provide concise, accurate, and helpful answers.
-- Scope: Official city services like IPTU, certificates, ombudsman, health scheduling.
-
-Instructions:
-- Always be polite and helpful.
-- If the question is outside the scope of Rio Claro city services, politely state that you can only assist with local municipal inquiries.
-- Keep answers concise for touch screens.
-- YOU MUST RESPOND IN THE REQUESTED LANGUAGE: {{{language}}}.
-
-IMPORTANTE: Responda APENAS um objeto JSON válido seguindo o schema definido. Não utilize marcações markdown ou texto introdutório.
-
-Question: {{{question}}}`
-});
-
-const citizenAIServiceAssistantFlow = ai.defineFlow(
-  {
-    name: 'citizenAIServiceAssistantFlow',
-    inputSchema: CitizenAIServiceAssistantInputSchema,
-    outputSchema: CitizenAIServiceAssistantOutputSchema,
-  },
-  async (input) => {
-    const {output} = await citizenServicePrompt(input);
-    return output!;
-  }
-);
 
 export async function citizenAIServiceAssistant(
   input: CitizenAIServiceAssistantInput
 ): Promise<CitizenAIServiceAssistantOutput> {
-  return citizenAIServiceAssistantFlow(input);
+  const prompt = `Você é o assistente virtual oficial da Prefeitura de Rio Claro - RJ para o totem "Link do Cidadão".
+Responda dúvidas sobre serviços municipais (IPTU, Saúde, Ouvidoria, etc) de forma concisa e útil.
+
+Localização: Rio Claro, Estado do Rio de Janeiro (RJ), Brasil.
+Idioma da resposta: ${input.language === 'pt' ? 'Português Brasil' : input.language === 'en' ? 'Inglês' : 'Espanhol'}.
+
+Pergunta do Cidadão: ${input.question}`;
+
+  const schemaDesc = "{ \"answer\": \"string\" }";
+
+  try {
+    return await aiService.generate<CitizenAIServiceAssistantOutput>(prompt, schemaDesc);
+  } catch (error) {
+    console.error("Falha no assistente do cidadão:", error);
+    return {
+      answer: input.language === 'pt' 
+        ? "Desculpe, não consegui processar sua dúvida agora. Por favor, tente novamente em instantes." 
+        : "Sorry, I couldn't process your question right now. Please try again in a moment."
+    };
+  }
 }

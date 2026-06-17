@@ -20,7 +20,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useToast } from "@/hooks/use-toast"
-import { Lock } from "lucide-react"
+import { Lock, ChevronDown, ChevronUp } from "lucide-react"
 
 const INACTIVITY_TIMEOUT = 30000; // 30 seconds
 const ADMIN_PASSWORD = "rioclaro2024";
@@ -31,6 +31,7 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<'citizen' | 'admin'>('citizen');
   const [showScreensaver, setShowScreensaver] = useState(false);
   const [lastActivity, setLastActivity] = useState<number | null>(null);
+  const [isNavVisible, setIsNavVisible] = useState(false);
   
   // Admin Authentication State
   const [isAdminAuthDialogOpen, setIsAdminAuthDialogOpen] = useState(false);
@@ -57,6 +58,7 @@ export default function Home() {
     const interval = setInterval(() => {
       if (Date.now() - lastActivity > INACTIVITY_TIMEOUT && !showScreensaver) {
         setShowScreensaver(true);
+        setIsNavVisible(false); // Hide nav when screensaver starts
       }
     }, 1000);
 
@@ -74,6 +76,7 @@ export default function Home() {
     
     if (isAuthenticated) {
       setActiveTab('admin');
+      setIsNavVisible(false);
     } else {
       setIsAdminAuthDialogOpen(true);
     }
@@ -85,6 +88,7 @@ export default function Home() {
       setActiveTab('admin');
       setIsAdminAuthDialogOpen(false);
       setPasswordInput('');
+      setIsNavVisible(false);
       toast({
         title: "Acesso Concedido",
         description: "Bem-vindo ao painel administrativo.",
@@ -105,6 +109,13 @@ export default function Home() {
       "min-h-screen relative overflow-hidden bg-cool-gray selection:bg-primary selection:text-white",
       store.highContrast && "high-contrast"
     )}>
+      {/* Invisible Trigger Area at the top */}
+      <div 
+        onClick={() => setIsNavVisible(!isNavVisible)}
+        className="fixed top-0 left-0 right-0 h-4 z-[110] cursor-pointer"
+        title="Gatilho de Menu Administrativo"
+      />
+
       {/* Top Banner */}
       <EmergencyBanner 
         active={store.emergencyAlert.active} 
@@ -114,30 +125,44 @@ export default function Home() {
 
       <div className="flex flex-col h-screen">
         {/* Navigation & Accessibility */}
-        <div className="flex flex-col">
-          <div className="bg-slate-900 h-10 flex items-center px-4 justify-between">
-            <span className="text-slate-400 text-xs font-mono uppercase tracking-widest">
-              {store.t.unit}: #RC-001-CENTRO-SUL | Rio Claro - RJ
-            </span>
-            <div className="flex gap-4">
-              <button 
-                onClick={() => setActiveTab('citizen')} 
-                className={cn("text-xs font-bold px-2 py-1 rounded transition-colors", activeTab === 'citizen' ? "bg-primary text-white" : "text-slate-400 hover:text-white")}
-              >
-                TOTEM
-              </button>
-              <button 
-                onClick={handleAdminClick} 
-                className={cn(
-                  "text-xs font-bold px-2 py-1 rounded transition-colors flex items-center gap-1", 
-                  activeTab === 'admin' ? "bg-primary text-white" : "text-slate-400 hover:text-white"
+        <div className="flex flex-col relative z-[100]">
+          {/* Admin Navigation Bar - Only visible if triggered or in Admin view */}
+          {(isNavVisible || activeTab === 'admin') && (
+            <div className="bg-slate-900 h-12 flex items-center px-4 justify-between animate-in slide-in-from-top duration-300">
+              <span className="text-slate-400 text-xs font-mono uppercase tracking-widest">
+                {store.t.unit}: #RC-001-CENTRO-SUL | Rio Claro - RJ
+              </span>
+              <div className="flex gap-4">
+                <button 
+                  onClick={() => {
+                    setActiveTab('citizen');
+                    setIsNavVisible(false);
+                  }} 
+                  className={cn("text-xs font-bold px-3 py-1.5 rounded transition-colors", activeTab === 'citizen' ? "bg-primary text-white" : "text-slate-400 hover:text-white")}
+                >
+                  TOTEM
+                </button>
+                <button 
+                  onClick={handleAdminClick} 
+                  className={cn(
+                    "text-xs font-bold px-3 py-1.5 rounded transition-colors flex items-center gap-1", 
+                    activeTab === 'admin' ? "bg-primary text-white" : "text-slate-400 hover:text-white"
+                  )}
+                >
+                  {!isAuthenticated && activeTab !== 'admin' && <Lock className="h-3 w-3" />}
+                  ADMIN
+                </button>
+                {activeTab === 'citizen' && (
+                  <button 
+                    onClick={() => setIsNavVisible(false)}
+                    className="text-slate-500 hover:text-white ml-2"
+                  >
+                    <ChevronUp className="h-4 w-4" />
+                  </button>
                 )}
-              >
-                {!isAuthenticated && activeTab !== 'admin' && <Lock className="h-3 w-3" />}
-                ADMIN
-              </button>
+              </div>
             </div>
-          </div>
+          )}
           
           <AccessibilityControls 
             highContrast={store.highContrast}
@@ -174,6 +199,7 @@ export default function Home() {
               onLogout={() => {
                 setIsAuthenticated(false);
                 setActiveTab('citizen');
+                setIsNavVisible(false);
               }}
             />
           )}

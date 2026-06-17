@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState } from 'react'
@@ -10,7 +11,7 @@ import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Plus, Trash2, Megaphone, Newspaper, Layout, Sparkles, AlertTriangle } from "lucide-react"
+import { Plus, Trash2, Megaphone, Newspaper, Layout, Sparkles, AlertTriangle, Database, ExternalLink } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { generateNewsContent } from '@/ai/flows/admin-news-content-generator'
 
@@ -94,6 +95,9 @@ export function AdminView({ news, addNews, deleteNews, emergencyAlert, updateEme
           </TabsTrigger>
           <TabsTrigger value="settings" className="h-full px-8 text-xl font-bold data-[state=active]:bg-primary data-[state=active]:text-white rounded-xl">
              <AlertTriangle className="mr-2" /> Emergência
+          </TabsTrigger>
+          <TabsTrigger value="system" className="h-full px-8 text-xl font-bold data-[state=active]:bg-primary data-[state=active]:text-white rounded-xl">
+             <Database className="mr-2" /> Sistema
           </TabsTrigger>
         </TabsList>
 
@@ -259,6 +263,59 @@ export function AdminView({ news, addNews, deleteNews, emergencyAlert, updateEme
                     <div className="flex flex-col">
                       <span className="text-2xl font-bold text-red-900">Transmitir Alerta Agora</span>
                       <p className="text-red-700">O alerta começará a piscar em todos os terminais ativos.</p>
+                    </div>
+                 </div>
+              </CardContent>
+           </Card>
+        </TabsContent>
+
+        <TabsContent value="system">
+           <Card className="rounded-[2rem] border-2 border-slate-200">
+              <CardHeader className="p-8">
+                 <CardTitle className="text-3xl font-headline flex items-center gap-4">
+                    <Database className="h-10 w-10 text-primary" />
+                    Configurações do Sistema
+                 </CardTitle>
+                 <CardDescription className="text-lg">Repositórios oficiais e registros de auditoria.</CardDescription>
+              </CardHeader>
+              <CardContent className="p-8 space-y-8">
+                 <div className="p-8 bg-slate-50 border-2 border-dashed rounded-[2rem] flex flex-col gap-6">
+                    <div className="space-y-2">
+                      <h4 className="text-2xl font-bold text-slate-800">Repositório de Registros</h4>
+                      <p className="text-lg text-muted-foreground">Utilizado para auditoria e logs de operação do totem.</p>
+                    </div>
+                    <div className="bg-white p-6 rounded-2xl border shadow-sm flex items-center justify-between">
+                       <code className="text-lg font-mono text-primary break-all">https://github.com/Augusto8tj/toten-do-cidad-o.git</code>
+                       <Button asChild variant="outline" className="h-14 px-8 text-lg border-2">
+                          <a href="https://github.com/Augusto8tj/toten-do-cidad-o.git" target="_blank" rel="noopener noreferrer">
+                             <ExternalLink className="mr-2 h-6 w-6" /> Abrir GitHub
+                          </a>
+                       </Button>
+                    </div>
+                 </div>
+
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="p-6 border rounded-2xl bg-white space-y-4">
+                       <h5 className="font-bold text-xl">Status da Unidade</h5>
+                       <div className="flex justify-between items-center py-2 border-b">
+                          <span className="text-muted-foreground">ID da Unidade</span>
+                          <span className="font-mono">#001-CENTRO-SUL</span>
+                       </div>
+                       <div className="flex justify-between items-center py-2 border-b">
+                          <span className="text-muted-foreground">Status do Link</span>
+                          <span className="text-green-600 font-bold">ONLINE</span>
+                       </div>
+                    </div>
+                    <div className="p-6 border rounded-2xl bg-white space-y-4">
+                       <h5 className="font-bold text-xl">Sincronização</h5>
+                       <div className="flex justify-between items-center py-2 border-b">
+                          <span className="text-muted-foreground">Última Atualização</span>
+                          <span>Hoje, {new Date().toLocaleTimeString()}</span>
+                       </div>
+                       <div className="flex justify-between items-center py-2 border-b">
+                          <span className="text-muted-foreground">Versão do Sistema</span>
+                          <span className="font-mono">v1.2.0-stable</span>
+                       </div>
                     </div>
                  </div>
               </CardContent>

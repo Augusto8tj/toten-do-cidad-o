@@ -257,7 +257,7 @@ export const translations = {
     certSteps: ["Ingrese CPF o CNPJ", "Seleccione el tipo de certificado", "Emisión instantánea con código de autenticidad"],
     ouvidTitle: "Defensoría",
     ouvidTitleFull: "Hablar con la Defensoría",
-    ouvidDesc: "Hable con la Alcaldía: sugerencias o quejas.",
+    ouvidDesc: "Hable con la Alcaldía: sugerencias ou quejas.",
     ouvidSteps: ["Elija tipo: Elogio, Queja o Sugerencia", "Adjunte fotos si es necesario (vía QR Code)", "Guarde su número de protocolo"],
     saudeTitle: "Citas Médicas",
     saudeDesc: "Reserve citas en las unidades de Rio Claro.",
@@ -269,7 +269,7 @@ export const translations = {
     officialDesc: "Acceda al portal completo de la Alcaldía de Rio Claro.",
     officialSteps: ["Portal oficial con noticias institucionales", "Enlaces al diario oficial y edictos", "Teléfonos de todas las secretarías"],
     askAi: "Preguntar a la IA",
-    errorAi: "Lo siento, tuve un problema al procesar su consulta. Inténtelo de nuevo.",
+    errorAi: "Lo siento, tuve un problema ao procesar su consulta. Inténtelo de nuevo.",
     requirements: "Requisitos",
     steps: "Paso a Paso",
     printTicket: "Imprimir Turno",
@@ -297,16 +297,23 @@ export function useKioskStore() {
   const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
-    const storedNews = localStorage.getItem('civitas_news');
-    const storedScreensaver = localStorage.getItem('civitas_screensaver');
-    const storedEmergency = localStorage.getItem('civitas_emergency');
-    const storedLang = localStorage.getItem('civitas_lang');
+    try {
+      const storedNews = localStorage.getItem('civitas_news');
+      const storedScreensaver = localStorage.getItem('civitas_screensaver');
+      const storedEmergency = localStorage.getItem('civitas_emergency');
+      const storedLang = localStorage.getItem('civitas_lang');
 
-    if (storedLang) setLanguage(storedLang as Language);
-    setNews(storedNews ? JSON.parse(storedNews) : DEFAULT_NEWS);
-    setScreensaverItems(storedScreensaver ? JSON.parse(storedScreensaver) : DEFAULT_SCREENSAVER);
-    setEmergencyAlert(storedEmergency ? JSON.parse(storedEmergency) : { active: false, message: '' });
-    setIsInitialized(true);
+      if (storedLang) setLanguage(storedLang as Language);
+      setNews(storedNews ? JSON.parse(storedNews) : DEFAULT_NEWS);
+      setScreensaverItems(storedScreensaver ? JSON.parse(storedScreensaver) : DEFAULT_SCREENSAVER);
+      setEmergencyAlert(storedEmergency ? JSON.parse(storedEmergency) : { active: false, message: '' });
+    } catch (e) {
+      console.error("Store init error:", e);
+      setNews(DEFAULT_NEWS);
+      setScreensaverItems(DEFAULT_SCREENSAVER);
+    } finally {
+      setIsInitialized(true);
+    }
   }, []);
 
   const changeLanguage = (lang: Language) => {

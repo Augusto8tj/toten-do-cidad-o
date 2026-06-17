@@ -1,13 +1,11 @@
 
 "use client"
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, Suspense } from 'react'
+import dynamic from 'next/dynamic'
 import { useKioskStore } from '@/store/kiosk-store'
 import { AccessibilityControls } from '@/components/kiosk/AccessibilityControls'
 import { EmergencyBanner } from '@/components/kiosk/EmergencyBanner'
-import { Screensaver } from '@/components/kiosk/Screensaver'
-import { CitizenView } from '@/components/kiosk/CitizenView'
-import { AdminView } from '@/components/kiosk/AdminView'
 import { Toaster } from '@/components/ui/toaster'
 import { cn } from '@/lib/utils'
 import {
@@ -20,7 +18,18 @@ import {
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useToast } from "@/hooks/use-toast"
-import { Lock, ChevronUp } from "lucide-react"
+import { Lock, ChevronUp, Loader2 } from "lucide-react"
+
+// Carregamento dinâmico para dividir os chunks
+const CitizenView = dynamic(() => import('@/components/kiosk/CitizenView').then(mod => mod.CitizenView), {
+  loading: () => <div className="h-full w-full flex items-center justify-center"><Loader2 className="h-12 w-12 animate-spin text-primary" /></div>
+})
+
+const AdminView = dynamic(() => import('@/components/kiosk/AdminView').then(mod => mod.AdminView), {
+  loading: () => <div className="h-full w-full flex items-center justify-center"><Loader2 className="h-12 w-12 animate-spin text-primary" /></div>
+})
+
+const Screensaver = dynamic(() => import('@/components/kiosk/Screensaver').then(mod => mod.Screensaver), { ssr: false })
 
 const INACTIVITY_TIMEOUT = 30000; // 30 seconds
 const ADMIN_PASSWORD = "rioclaro2024";
@@ -32,6 +41,7 @@ export default function Home() {
   const [showScreensaver, setShowScreensaver] = useState(false);
   const [lastActivity, setLastActivity] = useState<number | null>(null);
   const [isNavVisible, setIsNavVisible] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
   
   // Admin Authentication State
   const [isAdminAuthDialogOpen, setIsAdminAuthDialogOpen] = useState(false);
@@ -39,6 +49,7 @@ export default function Home() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
+    setHasMounted(true);
     setLastActivity(Date.now());
   }, []);
 
@@ -50,7 +61,7 @@ export default function Home() {
   }, [showScreensaver]);
 
   useEffect(() => {
-    if (activeTab === 'admin' || lastActivity === null) {
+    if (!hasMounted || activeTab === 'admin' || lastActivity === null) {
       setShowScreensaver(false);
       return;
     }
@@ -58,18 +69,18 @@ export default function Home() {
     const interval = setInterval(() => {
       if (Date.now() - lastActivity > INACTIVITY_TIMEOUT && !showScreensaver) {
         setShowScreensaver(true);
-        setIsNavVisible(false); // Hide nav when screensaver starts
+        setIsNavVisible(false);
       }
     }, 1000);
 
-    const events = ['mousemove', 'touchstart', 'keydown'];
+    const events = ['mousedown', 'touchstart', 'keydown'];
     events.forEach(e => window.addEventListener(e, resetInactivity));
 
     return () => {
       clearInterval(interval);
       events.forEach(e => window.removeEventListener(e, resetInactivity));
     };
-  }, [lastActivity, showScreensaver, resetInactivity, activeTab]);
+  }, [lastActivity, showScreensaver, resetInactivity, activeTab, hasMounted]);
 
   const handleAdminClick = () => {
     if (activeTab === 'admin') return;
@@ -102,13 +113,22 @@ export default function Home() {
     }
   };
 
-  if (!store.isInitialized) return null;
+  if (!hasMounted || !store.isInitialized) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-cool-gray">
+        <Loader2 className="h-16 w-16 animate-spin text-primary opacity-20" />
+      </div>
+    );
+  }
 
   return (
-    <main className={cn(
-      "min-h-screen relative overflow-hidden bg-cool-gray selection:bg-primary selection:text-white",
-      store.highContrast && "high-contrast"
-    )}>
+    <main 
+      className={cn(
+        "min-h-screen relative overflow-hidden bg-cool-gray selection:bg-primary selection:text-white",
+        store.highContrast && "high-contrast"
+      )}
+      suppressHydrationWarning
+    >
       {/* Invisible Trigger Area at the top */}
       <div 
         onClick={() => setIsNavVisible(!isNavVisible)}
@@ -126,7 +146,7 @@ export default function Home() {
       <div className="flex flex-col h-screen">
         {/* Navigation & Accessibility */}
         <div className="flex flex-col relative z-[100]">
-          {/* Admin Navigation Bar - Only visible if triggered or in Admin view */}
+          {/* Admin Navigation Bar */}
           {(isNavVisible || activeTab === 'admin') && (
             <div className="bg-slate-900 h-12 flex items-center px-4 justify-between animate-in slide-in-from-top duration-300">
               <span className="text-slate-400 text-xs font-mono uppercase tracking-widest">
@@ -178,31 +198,33 @@ export default function Home() {
 
         {/* View Switching */}
         <div className="flex-1 relative overflow-hidden">
-          {activeTab === 'citizen' ? (
-            <CitizenView 
-              wheelchairMode={store.wheelchairMode} 
-              news={store.news} 
-              language={store.language}
-              t={store.t}
-            />
-          ) : (
-            <AdminView 
-              news={store.news}
-              addNews={store.addNews}
-              updateNews={store.updateNews}
-              deleteNews={store.deleteNews}
-              emergencyAlert={store.emergencyAlert}
-              updateEmergency={store.updateEmergency}
-              screensaverItems={store.screensaverItems}
-              addScreensaver={store.addScreensaver}
-              deleteScreensaver={store.deleteScreensaver}
-              onLogout={() => {
-                setIsAuthenticated(false);
-                setActiveTab('citizen');
-                setIsNavVisible(false);
-              }}
-            />
-          )}
+          <Suspense fallback={<div className="h-full flex items-center justify-center"><Loader2 className="h-12 w-12 animate-spin text-primary" /></div>}>
+            {activeTab === 'citizen' ? (
+              <CitizenView 
+                wheelchairMode={store.wheelchairMode} 
+                news={store.news} 
+                language={store.language}
+                t={store.t}
+              />
+            ) : (
+              <AdminView 
+                news={store.news}
+                addNews={store.addNews}
+                updateNews={store.updateNews}
+                deleteNews={store.deleteNews}
+                emergencyAlert={store.emergencyAlert}
+                updateEmergency={store.updateEmergency}
+                screensaverItems={store.screensaverItems}
+                addScreensaver={store.addScreensaver}
+                deleteScreensaver={store.deleteScreensaver}
+                onLogout={() => {
+                  setIsAuthenticated(false);
+                  setActiveTab('citizen');
+                  setIsNavVisible(false);
+                }}
+              />
+            )}
+          </Suspense>
         </div>
       </div>
 

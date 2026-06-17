@@ -2,7 +2,7 @@
 "use client"
 
 import { useState, useEffect } from 'react'
-import { Building2, FileText, MessageSquare, Newspaper, Info, Search, Bot, ShieldCheck, Globe } from 'lucide-react'
+import { Building2, FileText, MessageSquare, Newspaper, Info, Search, Bot, ShieldCheck, Globe, TrendingUp } from 'lucide-react'
 import { Card, CardContent } from "@/components/ui/card"
 import { ServiceDialog } from './ServiceDialog'
 import { AIChatDialog } from './AIChatDialog'
@@ -10,6 +10,7 @@ import { NewsItem, Language } from '@/store/kiosk-store'
 import Image from 'next/image'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 
 const GET_SERVICES = (t: any) => [
   { id: 'iptu', title: t.iptuTitle, icon: Building2, description: t.iptuDesc, url: 'https://rioclaro.rj.gov.br/iptu' },
@@ -31,6 +32,7 @@ export function CitizenView({ wheelchairMode, news, language, t }: Props) {
   const [selectedService, setSelectedService] = useState<any | null>(null);
   const [isAiOpen, setIsAiOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState<Date | null>(null);
+  const [tickerIndex, setTickerIndex] = useState(0);
   const services = GET_SERVICES(t);
 
   useEffect(() => {
@@ -39,12 +41,21 @@ export function CitizenView({ wheelchairMode, news, language, t }: Props) {
     return () => clearInterval(timer);
   }, []);
 
+  // News rotation logic for the bottom ticker
+  useEffect(() => {
+    if (news.length === 0) return;
+    const tickerTimer = setInterval(() => {
+      setTickerIndex((prev) => (prev + 1) % news.length);
+    }, 3000); // Rotates every 3 seconds for readability
+    return () => clearInterval(tickerTimer);
+  }, [news]);
+
   const containerClasses = wheelchairMode 
     ? "h-screen flex flex-col justify-end pb-12 px-12 gap-8" 
-    : "h-screen flex flex-col pt-12 px-12 gap-12 overflow-y-auto";
+    : "h-screen flex flex-col pt-12 px-12 gap-10 overflow-y-auto pb-32";
 
   return (
-    <div className={containerClasses}>
+    <div className={cn("relative", containerClasses)}>
       {/* Header Info */}
       {!wheelchairMode && (
         <div className="flex justify-between items-end border-b pb-8">
@@ -118,16 +129,16 @@ export function CitizenView({ wheelchairMode, news, language, t }: Props) {
           </div>
         </div>
 
-        {/* News Feed Side */}
+        {/* News Feed Side (Static highlights) */}
         <div className="col-span-12 lg:col-span-4 space-y-8">
           <h2 className="text-4xl font-headline font-bold flex items-center gap-3">
             <Newspaper className="h-10 w-10 text-primary" />
             {t.newsTitle}
           </h2>
           <div className="flex flex-col gap-6">
-            {news.slice(0, 3).map((item) => (
+            {news.slice(0, 2).map((item) => (
               <Card key={item.id} className="overflow-hidden border-2 rounded-[2rem] hover:shadow-md transition-all">
-                <div className="flex h-[180px]">
+                <div className="flex h-[160px]">
                   <div className="w-1/3 relative">
                     <Image 
                       src={item.imageUrl} 
@@ -149,6 +160,32 @@ export function CitizenView({ wheelchairMode, news, language, t }: Props) {
               {t.allNews}
             </Button>
           </div>
+        </div>
+      </div>
+
+      {/* Dynamic News Ticker at the bottom */}
+      <div className={cn(
+        "fixed left-0 right-0 h-24 bg-primary text-white flex items-center px-12 shadow-2xl z-40 transition-all",
+        wheelchairMode ? "bottom-0" : "bottom-0"
+      )}>
+        <div className="flex items-center gap-4 border-r-2 border-white/20 pr-8 mr-8 shrink-0">
+          <TrendingUp className="h-10 w-10 text-secondary" />
+          <span className="text-2xl font-black uppercase tracking-tighter">Plantão Rio Claro</span>
+        </div>
+        <div className="flex-1 overflow-hidden relative h-10">
+          {news.map((item, idx) => (
+            <div 
+              key={item.id}
+              className={cn(
+                "absolute inset-0 flex items-center transition-all duration-700 ease-in-out",
+                idx === tickerIndex ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+              )}
+            >
+              <span className="text-2xl font-bold truncate">
+                {item.title} — <span className="text-secondary font-medium">{item.content.substring(0, 100)}...</span>
+              </span>
+            </div>
+          ))}
         </div>
       </div>
 

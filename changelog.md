@@ -3,6 +3,11 @@
 
 Todas as alterações notáveis neste projeto serão documentadas neste arquivo.
 
+## [1.1.3] - 2024-03-09
+### Adicionado
+- **Plantão Rio Claro**: Implementação de um ticker de notícias dinâmico na parte inferior da tela que rotaciona as novidades do município a cada 3 segundos.
+- **Animações de Transição**: Adição de efeitos de "slide-up" suave para as notícias do ticker, aumentando o dinamismo visual do totem.
+
 ## [1.1.2] - 2024-03-08
 ### Adicionado
 - **Eventos Municipais**: Inclusão de propagandas e informações sobre a Festa da União, Festa da Paz e Festão do Peão Boiadeiro na tela de descanso (screensaver).

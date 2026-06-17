@@ -1,0 +1,35 @@
+
+{
+  "placeholderImages": [
+    {
+      "id": "city-hall",
+      "description": "City Hall architecture",
+      "imageUrl": "https://picsum.photos/seed/cityhall/1920/1080",
+      "imageHint": "city hall building"
+    },
+    {
+      "id": "public-services",
+      "description": "Citizen service desk",
+      "imageUrl": "https://picsum.photos/seed/services/800/600",
+      "imageHint": "customer service"
+    },
+    {
+      "id": "urban-park",
+      "description": "Public park and greenery",
+      "imageUrl": "https://picsum.photos/seed/park/800/600",
+      "imageHint": "city park"
+    },
+    {
+      "id": "cultural-event",
+      "description": "Public concert or event",
+      "imageUrl": "https://picsum.photos/seed/event/800/600",
+      "imageHint": "concert crowd"
+    },
+    {
+      "id": "emergency",
+      "description": "Abstract emergency alert pattern",
+      "imageUrl": "https://picsum.photos/seed/alert/1920/200",
+      "imageHint": "abstract red"
+    }
+  ]
+}

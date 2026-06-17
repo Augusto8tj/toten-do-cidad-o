@@ -22,24 +22,48 @@ export type ScreensaverItem = {
 const DEFAULT_NEWS: NewsItem[] = [
   {
     id: '1',
-    title: 'Nova Praça Central inaugurada',
-    content: 'O novo espaço de lazer conta com Wi-Fi gratuito e pista de caminhada.',
-    imageUrl: 'https://picsum.photos/seed/park1/800/600',
-    date: '10 Out 2023'
+    title: 'Calendário de Eventos 2024 liberado',
+    content: 'Prepare-se para as festas tradicionais de Rio Claro! Festa da União e Festa da Paz confirmadas para este semestre.',
+    imageUrl: 'https://picsum.photos/seed/calendar/800/600',
+    date: 'Hoje'
   },
   {
     id: '2',
-    title: 'Mutirão de Vacinação no Sábado',
-    content: 'Todas as unidades básicas de saúde estarão abertas das 8h às 17h.',
+    title: 'Inscrições para a Corte do Festão do Peão',
+    content: 'Estão abertas as inscrições para Rainha e Princesas do Festão do Peão Boiadeiro de Rio Claro.',
+    imageUrl: 'https://picsum.photos/seed/peao-news/800/600',
+    date: 'Ontem'
+  },
+  {
+    id: '3',
+    title: 'Mutirão de Saúde no Centro',
+    content: 'Neste sábado, atendimento especial para consultas e vacinação na Praça da Matriz.',
     imageUrl: 'https://picsum.photos/seed/health/800/600',
-    date: '12 Out 2023'
+    date: '05 Mar'
   }
 ];
 
 const DEFAULT_SCREENSAVER: ScreensaverItem[] = [
-  { id: 's1', imageUrl: 'https://picsum.photos/seed/city1/1920/1080', caption: 'Conheça nossa cidade' },
-  { id: 's2', imageUrl: 'https://picsum.photos/seed/city2/1920/1080', caption: 'Pague seu IPTU online' },
-  { id: 's3', imageUrl: 'https://picsum.photos/seed/city3/1920/1080', caption: 'Festival de Inverno começa em breve' }
+  { 
+    id: 's1', 
+    imageUrl: 'https://picsum.photos/seed/uniao/1920/1080', 
+    caption: 'Festa da União 2024 - De 12 a 15 de Julho! Gastronomia, shows regionais e cultura.' 
+  },
+  { 
+    id: 's2', 
+    imageUrl: 'https://picsum.photos/seed/paz/1920/1080', 
+    caption: 'Festa da Paz: Um momento de harmonia e lazer para toda a família em Rio Claro.' 
+  },
+  { 
+    id: 's3', 
+    imageUrl: 'https://picsum.photos/seed/peao/1920/1080', 
+    caption: 'Festão do Peão Boiadeiro - O maior rodeio da região está chegando! Prepare sua bota.' 
+  },
+  { 
+    id: 's4', 
+    imageUrl: 'https://picsum.photos/seed/city1/1920/1080', 
+    caption: 'Bem-vindo a Rio Claro - RJ! Estamos trabalhando para você.' 
+  }
 ];
 
 export const translations = {
@@ -130,7 +154,7 @@ export const translations = {
     emergency: "ALERTA DE EMERGENCIA",
     aiAssistantTitle: "Asistente Rio Claro",
     aiAssistantSubtitle: "Inteligencia Artificial de la Alcaldía",
-    aiGreeting: "¿Cómo puedo ayudarte hoy en Rio Claro?",
+    aiGreeting: "¿Cómo posso ayudarte hoy en Rio Claro?",
     aiSuggestions: ['¿Cómo pagar IPTU?', '¿Dónde hay vacunación?', 'Horario de Alcaldía', 'Teléfono Defensoría'],
     aiInputPlaceholder: "Escriba sua duda aquí...",
     iptuTitle: "Impuesto (IPTU)",

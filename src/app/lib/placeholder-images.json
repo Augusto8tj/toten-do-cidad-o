@@ -30,6 +30,24 @@
       "description": "Abstract emergency alert pattern",
       "imageUrl": "https://picsum.photos/seed/alert/1920/200",
       "imageHint": "abstract red"
+    },
+    {
+      "id": "festa-uniao",
+      "description": "Festa da União Rio Claro",
+      "imageUrl": "https://picsum.photos/seed/uniao/1920/1080",
+      "imageHint": "party crowd"
+    },
+    {
+      "id": "festa-paz",
+      "description": "Festa da Paz Rio Claro",
+      "imageUrl": "https://picsum.photos/seed/paz/1920/1080",
+      "imageHint": "peace celebration"
+    },
+    {
+      "id": "festao-peao",
+      "description": "Festão do Peão Boiadeiro",
+      "imageUrl": "https://picsum.photos/seed/peao/1920/1080",
+      "imageHint": "rodeo event"
     }
   ]
 }

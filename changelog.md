@@ -3,6 +3,12 @@
 
 Todas as alterações notáveis neste projeto serão documentadas neste arquivo.
 
+## [1.1.2] - 2024-03-08
+### Adicionado
+- **Eventos Municipais**: Inclusão de propagandas e informações sobre a Festa da União, Festa da Paz e Festão do Peão Boiadeiro na tela de descanso (screensaver).
+- **Notícias de Eventos**: Mock data atualizado com o calendário de eventos 2024 para demonstração institucional.
+- **Novos Ativos Visuais**: Configuração de placeholders específicos para os festivais locais no arquivo de recursos de imagem.
+
 ## [1.1.1] - 2024-03-07
 ### Adicionado
 - **Links Institucionais**: Integração de acesso rápido ao Portal da Transparência e ao Site Oficial da Prefeitura de Rio Claro.

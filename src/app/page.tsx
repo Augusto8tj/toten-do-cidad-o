@@ -68,7 +68,7 @@ export default function Home() {
         {/* Navigation & Accessibility */}
         <div className="flex flex-col">
           <div className="bg-slate-900 h-10 flex items-center px-4 justify-between">
-            <span className="text-slate-400 text-xs font-mono uppercase tracking-widest">Kiosk Unit: #001-CENTRO-SUL</span>
+            <span className="text-slate-400 text-xs font-mono uppercase tracking-widest">Unidade: #RC-001-CENTRO-SUL | Rio Claro - RJ</span>
             <div className="flex gap-4">
               <button 
                 onClick={() => setActiveTab('citizen')} 

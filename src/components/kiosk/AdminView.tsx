@@ -54,7 +54,7 @@ export function AdminView({ news, addNews, deleteNews, emergencyAlert, updateEme
     try {
       const result = await generateNewsContent({ articleContent: newNews.content });
       setNewNews({ ...newNews, title: result.headline, content: result.summary });
-      toast({ title: "AI Otimizada", description: "Título e resumo gerados para o totem." });
+      toast({ title: "AI Otimizada", description: "Título e resumo gerados para o totem de Rio Claro." });
     } catch (e) {
       toast({ title: "Erro AI", description: "Não foi possível gerar conteúdo via AI." });
     } finally {
@@ -66,15 +66,15 @@ export function AdminView({ news, addNews, deleteNews, emergencyAlert, updateEme
     <div className="p-12 h-screen bg-slate-50 flex flex-col gap-8 overflow-y-auto">
       <div className="flex justify-between items-center bg-white p-8 rounded-[2rem] shadow-sm border">
         <div>
-          <h2 className="text-4xl font-headline font-bold text-primary">Painel de Controle</h2>
-          <p className="text-xl text-muted-foreground">Gerencie o conteúdo do Civitas Link em tempo real.</p>
+          <h2 className="text-4xl font-headline font-bold text-primary">Painel Rio Claro - RJ</h2>
+          <p className="text-xl text-muted-foreground">Gerencie o conteúdo do Civitas Link Rio Claro em tempo real.</p>
         </div>
         <div className="flex items-center gap-6 bg-red-50 p-6 rounded-3xl border-2 border-red-100">
            <div className="flex items-center gap-3">
               <Megaphone className="h-8 w-8 text-red-600" />
               <div className="flex flex-col">
-                <Label className="text-xl font-bold text-red-900">Alerta de Emergência</Label>
-                <p className="text-sm text-red-700">Ativa a barra vermelha piscando.</p>
+                <Label className="text-xl font-bold text-red-900">Alerta Rio Claro</Label>
+                <p className="text-sm text-red-700">Ativa a barra de emergência.</p>
               </div>
            </div>
            <Switch 
@@ -105,13 +105,13 @@ export function AdminView({ news, addNews, deleteNews, emergencyAlert, updateEme
           <Card className="rounded-[2rem] border-2">
             <CardHeader className="p-8">
               <CardTitle className="text-3xl font-headline">Nova Notícia</CardTitle>
-              <CardDescription className="text-lg">Preencha os dados para exibir no totem.</CardDescription>
+              <CardDescription className="text-lg">Preencha os dados para exibir no totem de Rio Claro.</CardDescription>
             </CardHeader>
             <CardContent className="p-8 pt-0 space-y-6">
               <div className="space-y-2">
                 <Label className="text-xl font-bold">Título da Notícia</Label>
                 <Input 
-                  placeholder="Ex: Mutirão de Saúde neste Sábado" 
+                  placeholder="Ex: Mutirão de Saúde em Rio Claro" 
                   value={newNews.title}
                   onChange={e => setNewNews({...newNews, title: e.target.value})}
                   className="h-16 text-xl rounded-xl"
@@ -132,7 +132,7 @@ export function AdminView({ news, addNews, deleteNews, emergencyAlert, updateEme
                   </Button>
                 </div>
                 <Textarea 
-                  placeholder="Escreva aqui o conteúdo completo ou resumo..." 
+                  placeholder="Escreva aqui o conteúdo completo..." 
                   className="min-h-[200px] text-xl rounded-xl"
                   value={newNews.content}
                   onChange={e => setNewNews({...newNews, content: e.target.value})}
@@ -155,8 +155,8 @@ export function AdminView({ news, addNews, deleteNews, emergencyAlert, updateEme
 
           <Card className="rounded-[2rem] border-2">
              <CardHeader className="p-8">
-                <CardTitle className="text-3xl font-headline">Feed Atual</CardTitle>
-                <CardDescription className="text-lg">Notícias que estão sendo exibidas agora.</CardDescription>
+                <CardTitle className="text-3xl font-headline">Feed Rio Claro</CardTitle>
+                <CardDescription className="text-lg">Notícias em exibição no momento.</CardDescription>
              </CardHeader>
              <CardContent className="p-0">
                 <ScrollArea className="h-[600px] p-8 pt-0">
@@ -192,13 +192,13 @@ export function AdminView({ news, addNews, deleteNews, emergencyAlert, updateEme
            <Card className="rounded-[2rem] border-2">
               <CardHeader className="p-8">
                  <CardTitle className="text-3xl font-headline">Gerenciar Screensaver</CardTitle>
-                 <CardDescription className="text-lg">Imagens que aparecem quando o totem está ocioso.</CardDescription>
+                 <CardDescription className="text-lg">Imagens de Rio Claro para quando o totem está ocioso.</CardDescription>
               </CardHeader>
               <CardContent className="p-8 space-y-6">
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="space-y-4">
                        <div className="space-y-2">
-                          <Label className="text-xl font-bold">Imagem do Slide (URL)</Label>
+                          <Label className="text-xl font-bold">Imagem (URL)</Label>
                           <Input 
                             value={newSlide.imageUrl}
                             onChange={e => setNewSlide({...newSlide, imageUrl: e.target.value})}
@@ -207,11 +207,11 @@ export function AdminView({ news, addNews, deleteNews, emergencyAlert, updateEme
                           />
                        </div>
                        <div className="space-y-2">
-                          <Label className="text-xl font-bold">Legenda do Slide</Label>
+                          <Label className="text-xl font-bold">Legenda</Label>
                           <Input 
                             value={newSlide.caption}
                             onChange={e => setNewSlide({...newSlide, caption: e.target.value})}
-                            placeholder="Texto chamativo para o cidadão" 
+                            placeholder="Frase chamativa para Rio Claro" 
                             className="h-16 text-xl rounded-xl"
                           />
                        </div>
@@ -240,9 +240,9 @@ export function AdminView({ news, addNews, deleteNews, emergencyAlert, updateEme
               <CardHeader className="p-8 bg-red-50 rounded-t-[2rem]">
                  <CardTitle className="text-3xl font-headline text-red-900 flex items-center gap-4">
                     <AlertTriangle className="h-10 w-10" />
-                    Configuração de Emergência
+                    Emergência Rio Claro
                  </CardTitle>
-                 <CardDescription className="text-lg text-red-700">Este aviso será exibido em todos os totens instantaneamente.</CardDescription>
+                 <CardDescription className="text-lg text-red-700">Este aviso será exibido em todos os totens do município.</CardDescription>
               </CardHeader>
               <CardContent className="p-8 space-y-6">
                  <div className="space-y-2">
@@ -250,7 +250,7 @@ export function AdminView({ news, addNews, deleteNews, emergencyAlert, updateEme
                     <Input 
                       value={emergencyAlert.message}
                       onChange={e => updateEmergency(emergencyAlert.active, e.target.value)}
-                      placeholder="Ex: Fortes chuvas previstas para as próximas horas. Evite áreas de risco." 
+                      placeholder="Ex: Rio Claro em alerta de tempestade. Procure abrigo." 
                       className="h-20 text-2xl rounded-xl border-2 border-red-100 focus-visible:ring-red-500"
                     />
                  </div>
@@ -262,7 +262,7 @@ export function AdminView({ news, addNews, deleteNews, emergencyAlert, updateEme
                     />
                     <div className="flex flex-col">
                       <span className="text-2xl font-bold text-red-900">Transmitir Alerta Agora</span>
-                      <p className="text-red-700">O alerta começará a piscar em todos os terminais ativos.</p>
+                      <p className="text-red-700">O alerta começará a piscar em todos os terminais de Rio Claro.</p>
                     </div>
                  </div>
               </CardContent>
@@ -276,13 +276,13 @@ export function AdminView({ news, addNews, deleteNews, emergencyAlert, updateEme
                     <Database className="h-10 w-10 text-primary" />
                     Configurações do Sistema
                  </CardTitle>
-                 <CardDescription className="text-lg">Repositórios oficiais e registros de auditoria.</CardDescription>
+                 <CardDescription className="text-lg">Registro oficial de Rio Claro - RJ e auditoria.</CardDescription>
               </CardHeader>
               <CardContent className="p-8 space-y-8">
                  <div className="p-8 bg-slate-50 border-2 border-dashed rounded-[2rem] flex flex-col gap-6">
                     <div className="space-y-2">
                       <h4 className="text-2xl font-bold text-slate-800">Repositório de Registros</h4>
-                      <p className="text-lg text-muted-foreground">Utilizado para auditoria e logs de operação do totem.</p>
+                      <p className="text-lg text-muted-foreground">Utilizado para auditoria e logs de operação do Civitas Link Rio Claro.</p>
                     </div>
                     <div className="bg-white p-6 rounded-2xl border shadow-sm flex items-center justify-between">
                        <code className="text-lg font-mono text-primary break-all">https://github.com/Augusto8tj/toten-do-cidad-o.git</code>
@@ -299,11 +299,11 @@ export function AdminView({ news, addNews, deleteNews, emergencyAlert, updateEme
                        <h5 className="font-bold text-xl">Status da Unidade</h5>
                        <div className="flex justify-between items-center py-2 border-b">
                           <span className="text-muted-foreground">ID da Unidade</span>
-                          <span className="font-mono">#001-CENTRO-SUL</span>
+                          <span className="font-mono">#RC-001-CENTRO</span>
                        </div>
                        <div className="flex justify-between items-center py-2 border-b">
-                          <span className="text-muted-foreground">Status do Link</span>
-                          <span className="text-green-600 font-bold">ONLINE</span>
+                          <span className="text-muted-foreground">Localização</span>
+                          <span className="font-bold">Rio Claro - RJ</span>
                        </div>
                     </div>
                     <div className="p-6 border rounded-2xl bg-white space-y-4">
@@ -313,8 +313,8 @@ export function AdminView({ news, addNews, deleteNews, emergencyAlert, updateEme
                           <span>Hoje, {new Date().toLocaleTimeString()}</span>
                        </div>
                        <div className="flex justify-between items-center py-2 border-b">
-                          <span className="text-muted-foreground">Versão do Sistema</span>
-                          <span className="font-mono">v1.2.0-stable</span>
+                          <span className="text-muted-foreground">Servidor</span>
+                          <span className="text-green-600 font-bold">CONECTADO</span>
                        </div>
                     </div>
                  </div>

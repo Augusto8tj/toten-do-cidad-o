@@ -11,10 +11,10 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 
 const SERVICES = [
-  { id: 'iptu', title: 'IPTU', icon: Building2, description: 'Emita a 2ª via do seu IPTU de forma rápida.', url: 'https://prefeitura.gov/iptu' },
-  { id: 'cert', title: 'Certidões', icon: FileText, description: 'Certidões negativas, de débitos e outros documentos.', url: 'https://prefeitura.gov/certidoes' },
-  { id: 'ouvid', title: 'Ouvidoria', icon: MessageSquare, description: 'Registre sua sugestão, reclamação ou elogio.', url: 'https://prefeitura.gov/ouvidoria' },
-  { id: 'saude', title: 'Agendamento Saúde', icon: Info, description: 'Marque consultas e exames nas unidades municipais.', url: 'https://prefeitura.gov/saude' },
+  { id: 'iptu', title: 'IPTU', icon: Building2, description: 'Emita a 2ª via do seu IPTU de Rio Claro.', url: 'https://rioclaro.rj.gov.br/iptu' },
+  { id: 'cert', title: 'Certidões', icon: FileText, description: 'Certidões negativas, de débitos e outros documentos municipais.', url: 'https://rioclaro.rj.gov.br/certidoes' },
+  { id: 'ouvid', title: 'Ouvidoria', icon: MessageSquare, description: 'Fale com a Prefeitura: sugestões, reclamações ou elogios.', url: 'https://rioclaro.rj.gov.br/ouvidoria' },
+  { id: 'saude', title: 'Agendamento Saúde', icon: Info, description: 'Marque consultas e exames nas unidades de Rio Claro.', url: 'https://rioclaro.rj.gov.br/saude' },
 ];
 
 interface Props {
@@ -31,12 +31,12 @@ export function CitizenView({ wheelchairMode, news }: Props) {
 
   return (
     <div className={containerClasses}>
-      {/* Header Info (Only if not in wheelchair mode or compact enough) */}
+      {/* Header Info */}
       {!wheelchairMode && (
         <div className="flex justify-between items-end border-b pb-8">
           <div>
             <h1 className="text-6xl font-headline font-bold text-primary">Civitas Link</h1>
-            <p className="text-2xl text-muted-foreground mt-2">Portal de Serviços e Informação da Prefeitura</p>
+            <p className="text-2xl text-muted-foreground mt-2">Rio Claro - RJ | Portal de Serviços e Informação</p>
           </div>
           <div className="text-right">
             <p className="text-4xl font-headline font-bold text-primary">
@@ -56,7 +56,7 @@ export function CitizenView({ wheelchairMode, news }: Props) {
         <div className="col-span-12 lg:col-span-8 space-y-8">
           <h2 className="text-4xl font-headline font-bold flex items-center gap-3">
             <Building2 className="h-10 w-10 text-primary" />
-            Serviços ao Cidadão
+            Serviços Rio Claro
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {SERVICES.map((service) => (
@@ -83,7 +83,7 @@ export function CitizenView({ wheelchairMode, news }: Props) {
           <div className="relative group mt-8">
             <Search className="absolute left-6 top-1/2 -translate-y-1/2 h-10 w-10 text-muted-foreground" />
             <Input 
-              placeholder="Pesquisar outros serviços..." 
+              placeholder="Pesquisar serviços em Rio Claro..." 
               className="h-24 pl-20 text-3xl rounded-3xl border-2 focus-visible:ring-primary bg-white shadow-sm"
             />
           </div>
@@ -93,7 +93,7 @@ export function CitizenView({ wheelchairMode, news }: Props) {
         <div className="col-span-12 lg:col-span-4 space-y-8">
           <h2 className="text-4xl font-headline font-bold flex items-center gap-3">
             <Newspaper className="h-10 w-10 text-primary" />
-            Notícias
+            Notícias Locais
           </h2>
           <div className="flex flex-col gap-6">
             {news.slice(0, 3).map((item) => (
@@ -117,7 +117,7 @@ export function CitizenView({ wheelchairMode, news }: Props) {
               </Card>
             ))}
             <Button variant="outline" className="kiosk-button w-full border-2 text-xl mt-4">
-              Ver Todas as Notícias
+              Ver Todas as Notícias de Rio Claro
             </Button>
           </div>
         </div>

@@ -3,8 +3,8 @@ import type {Metadata} from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Civitas Link - City Hall Kiosk',
-  description: 'Interactive citizen portal for modern city halls',
+  title: 'Civitas Link - Rio Claro - RJ',
+  description: 'Portal interativo de autoatendimento da Prefeitura Municipal de Rio Claro - RJ',
 };
 
 export default function RootLayout({

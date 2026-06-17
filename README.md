@@ -1,21 +1,20 @@
+
 # Link do Cidadão - Totem Municipal (Rio Claro - RJ)
 
 O **Link do Cidadão** é uma plataforma interativa de autoatendimento desenvolvida especificamente para a **Prefeitura Municipal de Rio Claro - RJ**. Projetada para totens e quiosques públicos, ela moderniza o acesso à informação e serviços municipais.
 
 ## 🚀 Documentação e Planejamento
-Para detalhes sobre o roadmap, objetivos estratégicos e futuras implementações, consulte o documento de escopo:
-👉 [**EscopoDoProjeto.md](./EscopoDoProjeto.md)**
+Para detalhes sobre o roadmap e padrões técnicos:
+- 👉 [**Escopo do Projeto**](./EscopoDoProjeto.md)
+- 👉 [**Padrão SGov de IA**](./GuiaIA-SGov.md)
 
 ## 🛠️ Funcionalidades Principais
-- **Portal de Serviços Rio Claro**: Acesso simplificado a serviços como IPTU, Certidões, Ouvidoria e Agendamento de Saúde municipal.
-- **Assistente AI Rio Claro**: Chat inteligente integrado via Genkit (Gemini) com suporte a **Português, Inglês e Espanhol**.
+- **Portal de Serviços Rio Claro**: Acesso simplificado a IPTU, Certidões, Ouvidoria e Agendamento de Saúde.
+- **Assistente AI Rio Claro**: Chat inteligente integrado via Genkit (Gemini) seguindo o **Padrão SGov FluxoSaúde**.
 - **Feed de Notícias Locais**: Central de notícias de Rio Claro com gerador de resumos via IA.
-- **Sistema de Alerta Municipal**: Banner crítico para avisos da Defesa Civil de Rio Claro em tempo real.
-- **Multilinguismo**: Suporte nativo para troca de idioma em tempo real (PT, EN, ES).
-- **Acessibilidade Inclusiva**:
-  - **Modo Cadeirante**: UI adaptada para telas sensíveis ao toque em baixa altura.
-  - **Alto Contraste**: Otimização visual para cidadãos com baixa visão.
-- **Gestão Administrativa**: Área restrita para controle de conteúdo e ativação de alertas de emergência.
+- **Multilinguismo**: Suporte nativo (PT, EN, ES).
+- **Acessibilidade Inclusiva**: Modo Cadeirante e Alto Contraste.
+- **Gestão de Emergência**: Banner crítico da Defesa Civil.
 
 ## 📂 Repositório de Registros e Auditoria
 O acompanhamento oficial do projeto e logs de auditoria estão disponíveis em:

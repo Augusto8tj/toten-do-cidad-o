@@ -17,6 +17,11 @@ export type ScreensaverItem = {
   id: string;
   imageUrl: string;
   caption?: string;
+  fontFamily?: 'font-body' | 'font-headline' | 'font-mono';
+  fontSize?: 'text-4xl' | 'text-5xl' | 'text-6xl' | 'text-7xl' | 'text-8xl';
+  textColor?: string;
+  textAlignment?: 'left' | 'center' | 'right';
+  overlayOpacity?: number;
 }
 
 export type EmergencyAlert = {
@@ -101,22 +106,32 @@ const DEFAULT_SCREENSAVER: ScreensaverItem[] = [
   { 
     id: 's1', 
     imageUrl: 'https://picsum.photos/seed/uniao/1920/1080', 
-    caption: 'Festa da União 2024 - De 12 a 15 de Julho! Gastronomia, shows regionais e cultura.' 
+    caption: 'Festa da União 2024 - De 12 a 15 de Julho! Gastronomia, shows regionais e cultura.',
+    fontFamily: 'font-headline',
+    fontSize: 'text-7xl',
+    textColor: '#ffffff',
+    textAlignment: 'left',
+    overlayOpacity: 60
   },
   { 
     id: 's2', 
     imageUrl: 'https://picsum.photos/seed/paz/1920/1080', 
-    caption: 'Festa da Paz: Um momento de harmonia e lazer para toda a família em Rio Claro.' 
+    caption: 'Festa da Paz: Um momento de harmonia e lazer para toda a família em Rio Claro.',
+    fontFamily: 'font-body',
+    fontSize: 'text-6xl',
+    textColor: '#ffffff',
+    textAlignment: 'center',
+    overlayOpacity: 40
   },
   { 
     id: 's3', 
     imageUrl: 'https://picsum.photos/seed/peao/1920/1080', 
-    caption: 'Festão do Peão Boiadeiro - O maior rodeio da região está chegando! Prepare sua bota.' 
-  },
-  { 
-    id: 's4', 
-    imageUrl: 'https://picsum.photos/seed/city1/1920/1080', 
-    caption: 'Bem-vindo a Rio Claro - RJ! Estamos trabalhando para você.' 
+    caption: 'Festão do Peão Boiadeiro - O maior rodeio da região está chegando! Prepare sua bota.',
+    fontFamily: 'font-headline',
+    fontSize: 'text-8xl',
+    textColor: '#facc15',
+    textAlignment: 'right',
+    overlayOpacity: 70
   }
 ];
 
@@ -261,7 +276,7 @@ export const translations = {
     ouvidSteps: ["Elija tipo: Elogio, Queja o Sugerencia", "Adjunte fotos si es necesario (vía QR Code)", "Guarde su número de protocolo"],
     saudeTitle: "Citas Médicas",
     saudeDesc: "Reserve citas en las unidades de Rio Claro.",
-    saudeSteps: ["Presente su Carnet de Salud SUS", "Elija la unidad de salud más cercana", "Confirme el horario disponible en la red municipal"],
+    saudeSteps: ["Presente su Carnet de Salud SUS", "Elija la unidad de salud más cercana", "Confirme el horario disponível en la red municipal"],
     transpTitle: "Transparencia",
     transpDesc: "Monitorear la gestão de los recursos públicos municipales.",
     transpSteps: ["Acceda a ingresos y gastos en tempo real", "Consulte licitaciones abertas", "Siga los salarios de los empleados municipales"],
@@ -322,7 +337,7 @@ export function useKioskStore() {
   };
 
   const addNews = (item: Omit<NewsItem, 'id' | 'date'>) => {
-    const newItem = { ...item, id: Math.random().toString(36).substr(2, 9), date: new Date().toLocaleDateString('pt-BR') };
+    const newItem = { ...item, id: Math.random().toString(36).substring(2, 11), date: new Date().toLocaleDateString('pt-BR') };
     const updated = [newItem, ...news];
     setNews(updated);
     localStorage.setItem('civitas_news', JSON.stringify(updated));
@@ -335,7 +350,7 @@ export function useKioskStore() {
   };
 
   const addScreensaver = (item: Omit<ScreensaverItem, 'id'>) => {
-    const newItem = { ...item, id: Math.random().toString(36).substr(2, 9) };
+    const newItem = { ...item, id: Math.random().toString(36).substring(2, 11) };
     const updated = [newItem, ...screensaverItems];
     setScreensaverItems(updated);
     localStorage.setItem('civitas_screensaver', JSON.stringify(updated));

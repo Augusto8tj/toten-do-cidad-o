@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { ScreensaverItem, TranslationType } from '@/store/kiosk-store'
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
 import Autoplay from 'embla-carousel-autoplay'
+import { cn } from '@/lib/utils'
 
 interface Props {
   items: ScreensaverItem[];
@@ -33,14 +34,31 @@ export function Screensaver({ items, onDismiss, t }: Props) {
                 src={item.imageUrl}
                 alt={item.caption || "Kiosk content"}
                 fill
-                className="object-cover brightness-75"
+                className="object-cover"
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-24">
-                <h2 className="text-white text-7xl font-headline font-bold mb-8 max-w-4xl">
+              <div 
+                className="absolute inset-0 flex flex-col justify-end p-24 transition-colors duration-500"
+                style={{ backgroundColor: `rgba(0,0,0,${(item.overlayOpacity || 60)/100})` }}
+              >
+                <h2 
+                  className={cn(
+                    "mb-8 max-w-5xl leading-tight transition-all",
+                    item.fontFamily || 'font-headline',
+                    item.fontSize || 'text-7xl',
+                    item.textAlignment === 'center' ? 'text-center' : item.textAlignment === 'right' ? 'text-right' : 'text-left',
+                    item.textAlignment === 'center' ? 'mx-auto' : item.textAlignment === 'right' ? 'ml-auto' : ''
+                  )}
+                  style={{ color: item.textColor || '#ffffff' }}
+                >
                   {item.caption}
                 </h2>
-                <p className="text-white/80 text-3xl font-medium animate-pulse">
+                <p 
+                  className={cn(
+                    "text-white/60 text-3xl font-medium animate-pulse",
+                    item.textAlignment === 'center' ? 'text-center' : item.textAlignment === 'right' ? 'text-right' : 'text-left'
+                  )}
+                >
                   {t.touchToStart}
                 </p>
               </div>

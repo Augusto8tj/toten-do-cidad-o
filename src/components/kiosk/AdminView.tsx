@@ -11,7 +11,9 @@ import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Plus, Trash2, Megaphone, Newspaper, Layout, Sparkles, AlertTriangle, Database, Search, History, ShieldCheck, Edit2, LogOut } from "lucide-react"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Slider } from "@/components/ui/slider"
+import { Plus, Trash2, Megaphone, Newspaper, Layout, Sparkles, AlertTriangle, Database, Search, History, ShieldCheck, Edit2, LogOut, Type, Palette, AlignLeft, AlignCenter, AlignRight } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { generateNewsContent } from '@/ai/flows/admin-news-content-generator'
 import { cn } from '@/lib/utils'
@@ -73,7 +75,17 @@ export function AdminView({
   const { toast } = useToast();
   const [newNews, setNewNews] = useState({ title: '', content: '', imageUrl: '' });
   const [editingNews, setEditingNews] = useState<NewsItem | null>(null);
-  const [newSlide, setNewSlide] = useState({ imageUrl: '', caption: '' });
+  
+  const [newSlide, setNewSlide] = useState<Omit<ScreensaverItem, 'id'>>({ 
+    imageUrl: '', 
+    caption: '',
+    fontFamily: 'font-headline',
+    fontSize: 'text-7xl',
+    textColor: '#ffffff',
+    textAlignment: 'left',
+    overlayOpacity: 60
+  });
+
   const [isGenerating, setIsGenerating] = useState(false);
   const [currentTime, setCurrentTime] = useState<string | null>(null);
   const [auditSearch, setAuditSearch] = useState('');
@@ -103,10 +115,21 @@ export function AdminView({
   };
 
   const handleAddSlide = () => {
-    if (!newSlide.imageUrl) return;
+    if (!newSlide.imageUrl) {
+      toast({ title: "Erro", description: "A URL da imagem é obrigatória." });
+      return;
+    }
     addScreensaver(newSlide);
-    setNewSlide({ imageUrl: '', caption: '' });
-    toast({ title: "Sucesso", description: "Slide adicionado ao Screensaver." });
+    setNewSlide({ 
+      imageUrl: '', 
+      caption: '',
+      fontFamily: 'font-headline',
+      fontSize: 'text-7xl',
+      textColor: '#ffffff',
+      textAlignment: 'left',
+      overlayOpacity: 60
+    });
+    toast({ title: "Sucesso", description: "Slide personalizado adicionado ao Screensaver." });
   };
 
   const handleAiOptimize = async (isEditing: boolean = false) => {
@@ -305,69 +328,205 @@ export function AdminView({
            <Card className="rounded-[2rem] border-2">
               <CardHeader className="p-8">
                  <CardTitle className="text-3xl font-headline">Gerenciar Screensaver</CardTitle>
-                 <CardDescription className="text-lg">Imagens de Rio Claro para quando o totem está ocioso.</CardDescription>
+                 <CardDescription className="text-lg">Customize imagens de Rio Claro com fontes, cores e estilos exclusivos.</CardDescription>
               </CardHeader>
-              <CardContent className="p-8 space-y-6">
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div className="space-y-4">
-                       <div className="space-y-2">
-                          <Label className="text-xl font-bold">Imagem (URL)</Label>
-                          <Input 
-                            value={newSlide.imageUrl}
-                            onChange={e => setNewSlide({...newSlide, imageUrl: e.target.value})}
-                            placeholder="URL da imagem em alta resolução" 
-                            className="h-16 text-xl rounded-xl"
-                          />
+              <CardContent className="p-8 space-y-10">
+                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-12">
+                    {/* Form de Criação */}
+                    <div className="space-y-8 bg-slate-50 p-8 rounded-[2rem] border-2">
+                       <h3 className="text-2xl font-bold flex items-center gap-2 text-primary">
+                          <Plus className="h-6 w-6" /> Novo Slide
+                       </h3>
+                       
+                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div className="space-y-2 md:col-span-2">
+                             <Label className="text-lg font-bold">Imagem (URL)</Label>
+                             <Input 
+                               value={newSlide.imageUrl}
+                               onChange={e => setNewSlide({...newSlide, imageUrl: e.target.value})}
+                               placeholder="Ex: https://picsum.photos/seed/rio/1920/1080" 
+                               className="h-14 text-lg rounded-xl"
+                             />
+                          </div>
+                          
+                          <div className="space-y-2 md:col-span-2">
+                             <Label className="text-lg font-bold">Texto / Legenda</Label>
+                             <Textarea 
+                               value={newSlide.caption}
+                               onChange={e => setNewSlide({...newSlide, caption: e.target.value})}
+                               placeholder="Frase chamativa..." 
+                               className="h-24 text-lg rounded-xl"
+                             />
+                          </div>
+
+                          <div className="space-y-2">
+                             <Label className="text-lg font-bold flex items-center gap-2"><Type className="h-5 w-5" /> Fonte</Label>
+                             <Select value={newSlide.fontFamily} onValueChange={(v: any) => setNewSlide({...newSlide, fontFamily: v})}>
+                                <SelectTrigger className="h-14 rounded-xl text-lg">
+                                   <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent className="rounded-xl">
+                                   <SelectItem value="font-headline" className="font-headline text-lg">Moderna (Headline)</SelectItem>
+                                   <SelectItem value="font-body" className="font-body text-lg">Padrão (Inter)</SelectItem>
+                                   <SelectItem value="font-mono" className="font-mono text-lg">Sistema (Mono)</SelectItem>
+                                </SelectContent>
+                             </Select>
+                          </div>
+
+                          <div className="space-y-2">
+                             <Label className="text-lg font-bold flex items-center gap-2"><Layout className="h-5 w-5" /> Tamanho</Label>
+                             <Select value={newSlide.fontSize} onValueChange={(v: any) => setNewSlide({...newSlide, fontSize: v})}>
+                                <SelectTrigger className="h-14 rounded-xl text-lg">
+                                   <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent className="rounded-xl">
+                                   <SelectItem value="text-4xl">Pequeno (4xl)</SelectItem>
+                                   <SelectItem value="text-5xl">Médio (5xl)</SelectItem>
+                                   <SelectItem value="text-6xl">Grande (6xl)</SelectItem>
+                                   <SelectItem value="text-7xl">Gigante (7xl)</SelectItem>
+                                   <SelectItem value="text-8xl">Extra (8xl)</SelectItem>
+                                </SelectContent>
+                             </Select>
+                          </div>
+
+                          <div className="space-y-2">
+                             <Label className="text-lg font-bold flex items-center gap-2"><Palette className="h-5 w-5" /> Cor do Texto</Label>
+                             <div className="flex gap-2">
+                                <Input 
+                                  type="color" 
+                                  value={newSlide.textColor}
+                                  onChange={e => setNewSlide({...newSlide, textColor: e.target.value})}
+                                  className="h-14 w-20 p-1 rounded-xl cursor-pointer"
+                                />
+                                <Input 
+                                  value={newSlide.textColor}
+                                  onChange={e => setNewSlide({...newSlide, textColor: e.target.value})}
+                                  placeholder="#FFFFFF" 
+                                  className="h-14 flex-1 text-lg rounded-xl"
+                                />
+                             </div>
+                          </div>
+
+                          <div className="space-y-2">
+                             <Label className="text-lg font-bold flex items-center gap-2">Alinhamento</Label>
+                             <div className="flex bg-white p-1 rounded-xl border h-14">
+                                <Button 
+                                   variant={newSlide.textAlignment === 'left' ? 'default' : 'ghost'}
+                                   className="flex-1 h-full rounded-lg"
+                                   onClick={() => setNewSlide({...newSlide, textAlignment: 'left'})}
+                                >
+                                   <AlignLeft className="h-5 w-5" />
+                                </Button>
+                                <Button 
+                                   variant={newSlide.textAlignment === 'center' ? 'default' : 'ghost'}
+                                   className="flex-1 h-full rounded-lg"
+                                   onClick={() => setNewSlide({...newSlide, textAlignment: 'center'})}
+                                >
+                                   <AlignCenter className="h-5 w-5" />
+                                </Button>
+                                <Button 
+                                   variant={newSlide.textAlignment === 'right' ? 'default' : 'ghost'}
+                                   className="flex-1 h-full rounded-lg"
+                                   onClick={() => setNewSlide({...newSlide, textAlignment: 'right'})}
+                                >
+                                   <AlignRight className="h-5 w-5" />
+                                </Button>
+                             </div>
+                          </div>
+
+                          <div className="space-y-4 md:col-span-2">
+                             <div className="flex justify-between items-center">
+                                <Label className="text-lg font-bold">Opacidade da Camada (Overlay)</Label>
+                                <span className="font-bold text-primary">{newSlide.overlayOpacity}%</span>
+                             </div>
+                             <Slider 
+                               value={[newSlide.overlayOpacity || 60]} 
+                               onValueChange={([v]) => setNewSlide({...newSlide, overlayOpacity: v})}
+                               max={100}
+                               step={5}
+                               className="py-4"
+                             />
+                          </div>
                        </div>
-                       <div className="space-y-2">
-                          <Label className="text-xl font-bold">Legenda</Label>
-                          <Input 
-                            value={newSlide.caption}
-                            onChange={e => setNewSlide({...newSlide, caption: e.target.value})}
-                            placeholder="Frase chamativa para Rio Claro" 
-                            className="h-16 text-xl rounded-xl"
-                          />
-                       </div>
-                       <Button onClick={handleAddSlide} className="kiosk-button w-full h-20 text-2xl">Adicionar Slide</Button>
+                       
+                       <Button onClick={handleAddSlide} className="kiosk-button w-full h-20 text-2xl shadow-xl">
+                          <Plus className="mr-2 h-8 w-8" /> Criar Slide Personalizado
+                       </Button>
                     </div>
-                    <div className="bg-slate-50 border rounded-2xl p-6">
-                       <h4 className="text-xl font-bold mb-4">Slides Ativos</h4>
-                       <div className="grid grid-cols-2 gap-4">
-                          {screensaverItems.map(item => (
-                            <div key={item.id} className="aspect-video bg-slate-200 rounded-xl relative overflow-hidden group">
-                               <Image src={item.imageUrl} alt="Slide" fill className="object-cover" />
-                               <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                  <AlertDialog>
-                                    <AlertDialogTrigger asChild>
-                                      <Button variant="destructive" size="icon" className="h-12 w-12 rounded-xl">
-                                        <Trash2 />
-                                      </Button>
-                                    </AlertDialogTrigger>
-                                    <AlertDialogContent className="rounded-[2rem] border-4">
-                                      <AlertDialogHeader>
-                                        <AlertDialogTitle className="text-2xl font-bold">Remover slide?</AlertDialogTitle>
-                                        <AlertDialogDescription className="text-lg">
-                                          Este slide deixará de ser exibido na tela de descanso do totem.
-                                        </AlertDialogDescription>
-                                      </AlertDialogHeader>
-                                      <AlertDialogFooter className="gap-4">
-                                        <AlertDialogCancel className="h-14 rounded-xl text-lg font-bold">Cancelar</AlertDialogCancel>
-                                        <AlertDialogAction 
-                                          onClick={() => {
-                                            deleteScreensaver(item.id);
-                                            toast({ title: "Removido", description: "Slide removido do screensaver." });
-                                          }}
-                                          className="h-14 rounded-xl text-lg font-bold bg-destructive hover:bg-destructive/90"
-                                        >
-                                          Confirmar Remoção
-                                        </AlertDialogAction>
-                                      </AlertDialogFooter>
-                                    </AlertDialogContent>
-                                  </AlertDialog>
+
+                    {/* Lista e Preview */}
+                    <div className="space-y-6">
+                       <h3 className="text-2xl font-bold flex items-center gap-2 text-primary">
+                          <Layout className="h-6 w-6" /> Slides Ativos
+                       </h3>
+                       <ScrollArea className="h-[700px] pr-4">
+                          <div className="grid grid-cols-1 gap-6">
+                             {screensaverItems.map(item => (
+                               <div key={item.id} className="bg-white border-2 rounded-[2rem] overflow-hidden flex flex-col group shadow-sm hover:shadow-md transition-all">
+                                  <div className="aspect-video relative">
+                                     <Image src={item.imageUrl} alt="Slide" fill className="object-cover" />
+                                     <div 
+                                        className="absolute inset-0 flex flex-col justify-end p-6"
+                                        style={{ backgroundColor: `rgba(0,0,0,${(item.overlayOpacity || 60)/100})` }}
+                                     >
+                                        <p className={cn(
+                                           "font-bold leading-tight",
+                                           item.fontFamily || 'font-headline',
+                                           item.fontSize || 'text-4xl',
+                                           item.textAlignment === 'center' ? 'text-center' : item.textAlignment === 'right' ? 'text-right' : 'text-left'
+                                        )} style={{ color: item.textColor || '#ffffff' }}>
+                                           {item.caption}
+                                        </p>
+                                     </div>
+                                     <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <AlertDialog>
+                                          <AlertDialogTrigger asChild>
+                                            <Button variant="destructive" size="icon" className="h-12 w-12 rounded-xl shadow-lg">
+                                              <Trash2 className="h-6 w-6" />
+                                            </Button>
+                                          </AlertDialogTrigger>
+                                          <AlertDialogContent className="rounded-[2rem] border-4">
+                                            <AlertDialogHeader>
+                                              <AlertDialogTitle className="text-2xl font-bold">Remover slide?</AlertDialogTitle>
+                                              <AlertDialogDescription className="text-lg">
+                                                Este slide deixará de ser exibido na tela de descanso do totem de Rio Claro.
+                                              </AlertDialogDescription>
+                                            </AlertDialogHeader>
+                                            <AlertDialogFooter className="gap-4">
+                                              <AlertDialogCancel className="h-14 rounded-xl text-lg font-bold">Cancelar</AlertDialogCancel>
+                                              <AlertDialogAction 
+                                                onClick={() => {
+                                                  deleteScreensaver(item.id);
+                                                  toast({ title: "Removido", description: "Slide removido do screensaver." });
+                                                }}
+                                                className="h-14 rounded-xl text-lg font-bold bg-destructive hover:bg-destructive/90"
+                                              >
+                                                Confirmar Remoção
+                                              </AlertDialogAction>
+                                            </AlertDialogFooter>
+                                          </AlertDialogContent>
+                                        </AlertDialog>
+                                     </div>
+                                  </div>
+                                  <div className="p-4 bg-slate-50 border-t flex items-center justify-between">
+                                     <div className="flex gap-4">
+                                        <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1">
+                                           <Type className="h-3 w-3" /> {item.fontFamily?.replace('font-', '')}
+                                        </span>
+                                        <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1">
+                                           <Layout className="h-3 w-3" /> {item.fontSize}
+                                        </span>
+                                        <div className="flex items-center gap-2">
+                                           <div className="h-3 w-3 rounded-full border" style={{ backgroundColor: item.textColor }} />
+                                           <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">{item.textColor}</span>
+                                        </div>
+                                     </div>
+                                     <span className="text-xs font-mono text-slate-400">ID: {item.id}</span>
+                                  </div>
                                </div>
-                            </div>
-                          ))}
-                       </div>
+                             ))}
+                          </div>
+                       </ScrollArea>
                     </div>
                  </div>
               </CardContent>

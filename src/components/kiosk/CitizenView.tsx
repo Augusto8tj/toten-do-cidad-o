@@ -1,7 +1,8 @@
+
 "use client"
 
 import { useState, useEffect } from 'react'
-import { Building2, FileText, MessageSquare, Newspaper, Info, Search, Bot } from 'lucide-react'
+import { Building2, FileText, MessageSquare, Newspaper, Info, Search, Bot, ShieldCheck, Globe } from 'lucide-react'
 import { Card, CardContent } from "@/components/ui/card"
 import { ServiceDialog } from './ServiceDialog'
 import { AIChatDialog } from './AIChatDialog'
@@ -15,6 +16,8 @@ const GET_SERVICES = (t: any) => [
   { id: 'cert', title: t.certTitle, icon: FileText, description: t.certDesc, url: 'https://rioclaro.rj.gov.br/certidoes' },
   { id: 'ouvid', title: t.ouvidTitle, icon: MessageSquare, description: t.ouvidDesc, url: 'https://rioclaro.rj.gov.br/ouvidoria' },
   { id: 'saude', title: t.saudeTitle, icon: Info, description: t.saudeDesc, url: 'https://rioclaro.rj.gov.br/saude' },
+  { id: 'transp', title: t.transpTitle, icon: ShieldCheck, description: t.transpDesc, url: 'https://rioclaro.rj.gov.br/transparencia' },
+  { id: 'official', title: t.officialTitle, icon: Globe, description: t.officialDesc, url: 'https://rioclaro.rj.gov.br/' },
 ];
 
 interface Props {

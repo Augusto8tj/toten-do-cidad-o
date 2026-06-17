@@ -71,6 +71,10 @@ export const translations = {
     ouvidDesc: "Fale com a Prefeitura: sugestões ou reclamações.",
     saudeTitle: "Agendamento Saúde",
     saudeDesc: "Marque consultas nas unidades de Rio Claro.",
+    transpTitle: "Transparência",
+    transpDesc: "Acompanhe a gestão dos recursos públicos municipais.",
+    officialTitle: "Site Oficial",
+    officialDesc: "Acesse o portal completo da Prefeitura de Rio Claro.",
     askAi: "Perguntar à IA",
     errorAi: "Desculpe, tive um problema ao processar sua dúvida. Tente novamente."
   },
@@ -102,6 +106,10 @@ export const translations = {
     ouvidDesc: "Talk to City Hall: suggestions or complaints.",
     saudeTitle: "Health Booking",
     saudeDesc: "Book appointments in Rio Claro units.",
+    transpTitle: "Transparency",
+    transpDesc: "Monitor the management of municipal public resources.",
+    officialTitle: "Official Website",
+    officialDesc: "Access the full portal of Rio Claro City Hall.",
     askAi: "Ask AI",
     errorAi: "Sorry, I had trouble processing your question. Try again soon."
   },
@@ -115,7 +123,7 @@ export const translations = {
     highContrast: "Alto Contraste",
     wheelchair: "Modo Silla de Ruedas",
     searchPlaceholder: "Buscar servicios en Rio Claro...",
-    allNews: "Ver Todas las Noticias",
+    allNews: "Ver Todas as Noticias",
     adminPanel: "Panel Administrativo",
     unit: "Unidad",
     language: "Idioma",
@@ -133,6 +141,10 @@ export const translations = {
     ouvidDesc: "Hable con la Alcaldía: sugerencias o quejas.",
     saudeTitle: "Citas Médicas",
     saudeDesc: "Reserve citas en las unidades de Rio Claro.",
+    transpTitle: "Transparencia",
+    transpDesc: "Monitorear la gestión de los recursos públicos municipales.",
+    officialTitle: "Sitio Oficial",
+    officialDesc: "Acceda al portal completo de la Alcaldía de Rio Claro.",
     askAi: "Preguntar a la IA",
     errorAi: "Lo siento, tuve un problema al procesar su consulta. Inténtelo de nuevo."
   }

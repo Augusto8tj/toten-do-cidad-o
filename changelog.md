@@ -3,6 +3,11 @@
 
 Todas as alterações notáveis neste projeto serão documentadas neste arquivo.
 
+## [1.1.1] - 2024-03-07
+### Adicionado
+- **Links Institucionais**: Integração de acesso rápido ao Portal da Transparência e ao Site Oficial da Prefeitura de Rio Claro.
+- **Novos Cards de Serviço**: Implementação de cards informativos com QR Code para os novos links institucionais.
+
 ## [1.1.0] - 2024-03-06
 ### Adicionado
 - **Chat de IA Interativo**: Nova interface de diálogo para o cidadão conversar com o assistente municipal movido a Gemini.

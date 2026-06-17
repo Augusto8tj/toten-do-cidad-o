@@ -3,6 +3,13 @@
 
 Todas as alterações notáveis neste projeto serão documentadas neste arquivo.
 
+## [1.2.2] - 2024-03-13
+### Melhorado
+- **Responsividade do Totem**: Layout otimizado para diferentes formatos de tela (horizontal e vertical).
+- **UX Tátil**: Áreas de clique ampliadas e sombras aprimoradas para melhor feedback visual em telas touch.
+- **Acessibilidade**: Refinamento do Modo Cadeirante com transições mais suaves e melhor aproveitamento de espaço.
+- **Diálogos de UI**: Otimização do Chat de IA para ocupar melhor a tela e oferecer botões de controle mais robustos.
+
 ## [1.2.1] - 2024-03-12
 ### Adicionado
 - **Expansão de Dados Mock**: Inclusão de 4 novas notícias detalhadas sobre segurança pública (Câmeras de Monitoramento), infraestrutura viária (RJ-155), agricultura em Getulândia e educação (Escolas Conectadas).
@@ -34,7 +41,7 @@ Todas as alterações notáveis neste projeto serão documentadas neste arquivo.
 ## [1.1.1] - 2024-03-07
 ### Adicionado
 - **Links Institucionais**: Integração de acesso rápido ao Portal da Transparência e ao Site Oficial da Prefeitura de Rio Claro.
-- **Novos Ativos de Serviço**: Implementação de cards informativos com QR Code para os novos links institucionais.
+- **Ativos de Serviço**: Implementação de cards informativos com QR Code para os novos links institucionais.
 
 ## [1.1.0] - 2024-03-06
 ### Adicionado
@@ -45,7 +52,6 @@ Todas as alterações notáveis neste projeto serão documentadas neste arquivo.
 
 ### Melhorado
 - **Acessibilidade**: Ajuste nos botões de controle para melhor visibilidade em telas sensíveis ao toque.
-- **Roadmap**: Atualização do status de implementação no `EscopoDoProjeto.md`.
 
 ## [1.0.0] - 2024-03-05
 ### Adicionado

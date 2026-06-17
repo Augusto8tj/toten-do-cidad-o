@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect } from 'react'
@@ -13,12 +14,54 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
 const GET_SERVICES = (t: any) => [
-  { id: 'iptu', title: t.iptuTitle, icon: Building2, description: t.iptuDesc, url: 'https://rioclaro.rj.gov.br/iptu' },
-  { id: 'cert', title: t.certTitle, icon: FileText, description: t.certDesc, url: 'https://rioclaro.rj.gov.br/certidoes' },
-  { id: 'ouvid', title: t.ouvidTitle, icon: MessageSquare, description: t.ouvidDesc, url: 'https://rioclaro.rj.gov.br/ouvidoria' },
-  { id: 'saude', title: t.saudeTitle, icon: Info, description: t.saudeDesc, url: 'https://rioclaro.rj.gov.br/saude' },
-  { id: 'transp', title: t.transpTitle, icon: ShieldCheck, description: t.transpDesc, url: 'https://rioclaro.rj.gov.br/transparencia' },
-  { id: 'official', title: t.officialTitle, icon: Globe, description: t.officialDesc, url: 'https://rioclaro.rj.gov.br/' },
+  { 
+    id: 'iptu', 
+    title: t.iptuTitle, 
+    icon: Building2, 
+    description: t.iptuDesc, 
+    url: 'https://rioclaro.rj.gov.br/iptu',
+    steps: t.iptuSteps
+  },
+  { 
+    id: 'cert', 
+    title: t.certTitle, 
+    icon: FileText, 
+    description: t.certDesc, 
+    url: 'https://rioclaro.rj.gov.br/certidoes',
+    steps: t.certSteps
+  },
+  { 
+    id: 'ouvid', 
+    title: t.ouvidTitle, 
+    icon: MessageSquare, 
+    description: t.ouvidDesc, 
+    url: 'https://rioclaro.rj.gov.br/ouvidoria',
+    steps: t.ouvidSteps
+  },
+  { 
+    id: 'saude', 
+    title: t.saudeTitle, 
+    icon: Info, 
+    description: t.saudeDesc, 
+    url: 'https://rioclaro.rj.gov.br/saude',
+    steps: t.saudeSteps
+  },
+  { 
+    id: 'transp', 
+    title: t.transpTitle, 
+    icon: ShieldCheck, 
+    description: t.transpDesc, 
+    url: 'https://rioclaro.rj.gov.br/transparencia',
+    steps: t.transpSteps
+  },
+  { 
+    id: 'official', 
+    title: t.officialTitle, 
+    icon: Globe, 
+    description: t.officialDesc, 
+    url: 'https://rioclaro.rj.gov.br/',
+    steps: t.officialSteps
+  },
 ];
 
 interface Props {

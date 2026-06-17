@@ -11,11 +11,11 @@ import Image from 'next/image'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 
-const SERVICES = (t: any) => [
-  { id: 'iptu', title: 'IPTU', icon: Building2, description: t.iptuDesc || 'Emita a 2ª via do seu IPTU de Rio Claro.', url: 'https://rioclaro.rj.gov.br/iptu' },
-  { id: 'cert', title: 'Certidões', icon: FileText, description: t.certDesc || 'Certidões negativas, de débitos e outros documentos municipais.', url: 'https://rioclaro.rj.gov.br/certidoes' },
-  { id: 'ouvid', title: 'Ouvidoria', icon: MessageSquare, description: t.ouvidDesc || 'Fale com a Prefeitura: sugestões, reclamações ou elogios.', url: 'https://rioclaro.rj.gov.br/ouvidoria' },
-  { id: 'saude', title: 'Agendamento Saúde', icon: Info, description: t.saudeDesc || 'Marque consultas e exames nas unidades de Rio Claro.', url: 'https://rioclaro.rj.gov.br/saude' },
+const GET_SERVICES = (t: any) => [
+  { id: 'iptu', title: t.iptuTitle, icon: Building2, description: t.iptuDesc, url: 'https://rioclaro.rj.gov.br/iptu' },
+  { id: 'cert', title: t.certTitle, icon: FileText, description: t.certDesc, url: 'https://rioclaro.rj.gov.br/certidoes' },
+  { id: 'ouvid', title: t.ouvidTitle, icon: MessageSquare, description: t.ouvidDesc, url: 'https://rioclaro.rj.gov.br/ouvidoria' },
+  { id: 'saude', title: t.saudeTitle, icon: Info, description: t.saudeDesc, url: 'https://rioclaro.rj.gov.br/saude' },
 ];
 
 interface Props {
@@ -28,7 +28,7 @@ interface Props {
 export function CitizenView({ wheelchairMode, news, language, t }: Props) {
   const [selectedService, setSelectedService] = useState<any | null>(null);
   const [isAiOpen, setIsAiOpen] = useState(false);
-  const services = SERVICES(t);
+  const services = GET_SERVICES(t);
 
   const containerClasses = wheelchairMode 
     ? "h-screen flex flex-col justify-end pb-12 px-12 gap-8" 
@@ -69,7 +69,7 @@ export function CitizenView({ wheelchairMode, news, language, t }: Props) {
               className="h-16 px-8 rounded-2xl bg-secondary hover:bg-secondary/90 text-white font-bold text-xl gap-3 shadow-lg transition-transform active:scale-95"
             >
               <Bot className="h-8 w-8" />
-              Perguntar à IA
+              {t.askAi}
             </Button>
           </div>
 

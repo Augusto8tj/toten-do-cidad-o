@@ -35,10 +35,11 @@ export function AIChatDialog({ isOpen, onOpenChange, language, t }: Props) {
     }
   }, [messages]);
 
-  const handleSend = async () => {
-    if (!input.trim() || isLoading) return;
+  const handleSend = async (customInput?: string) => {
+    const textToSend = customInput || input;
+    if (!textToSend.trim() || isLoading) return;
 
-    const userMsg = input.trim();
+    const userMsg = textToSend.trim();
     setInput('');
     setMessages(prev => [...prev, { role: 'user', content: userMsg }]);
     setIsLoading(true);
@@ -51,7 +52,7 @@ export function AIChatDialog({ isOpen, onOpenChange, language, t }: Props) {
       
       setMessages(prev => [...prev, { role: 'assistant', content: response.answer }]);
     } catch (error) {
-      setMessages(prev => [...prev, { role: 'assistant', content: "Desculpe, tive um problema ao processar sua dúvida. Tente novamente em instantes." }]);
+      setMessages(prev => [...prev, { role: 'assistant', content: t.errorAi }]);
     } finally {
       setIsLoading(false);
     }
@@ -66,8 +67,8 @@ export function AIChatDialog({ isOpen, onOpenChange, language, t }: Props) {
               <Bot className="h-10 w-10 text-white" />
             </div>
             <div>
-              <DialogTitle className="text-3xl font-headline font-bold">Assistente Rio Claro</DialogTitle>
-              <p className="text-primary-foreground/80 text-lg">Inteligência Artificial da Prefeitura</p>
+              <DialogTitle className="text-3xl font-headline font-bold">{t.aiAssistantTitle}</DialogTitle>
+              <p className="text-primary-foreground/80 text-lg">{t.aiAssistantSubtitle}</p>
             </div>
           </div>
         </DialogHeader>
@@ -79,15 +80,15 @@ export function AIChatDialog({ isOpen, onOpenChange, language, t }: Props) {
                 <div className="text-center py-12 space-y-4">
                   <Bot className="h-16 w-16 mx-auto text-primary/30" />
                   <p className="text-2xl text-muted-foreground font-medium">
-                    Como posso ajudar você hoje em Rio Claro?
+                    {t.aiGreeting}
                   </p>
                   <div className="grid grid-cols-2 gap-4 mt-8">
-                    {['Como pagar IPTU?', 'Onde tem vacinação?', 'Horário da Prefeitura', 'Telefone Ouvidoria'].map(q => (
+                    {t.aiSuggestions.map((q: string) => (
                       <Button 
                         key={q} 
                         variant="outline" 
-                        className="h-16 rounded-xl text-lg border-2 hover:border-primary"
-                        onClick={() => { setInput(q); }}
+                        className="h-16 rounded-xl text-lg border-2 hover:border-primary whitespace-normal text-left"
+                        onClick={() => handleSend(q)}
                       >
                         {q}
                       </Button>
@@ -102,7 +103,7 @@ export function AIChatDialog({ isOpen, onOpenChange, language, t }: Props) {
                   m.role === 'user' ? "flex-row-reverse" : "flex-row"
                 )}>
                   <div className={cn(
-                    "p-3 rounded-2xl",
+                    "p-3 rounded-2xl shrink-0",
                     m.role === 'user' ? "bg-primary text-white" : "bg-white border-2 text-slate-800"
                   )}>
                     {m.role === 'user' ? <User className="h-6 w-6" /> : <Bot className="h-6 w-6" />}
@@ -138,11 +139,11 @@ export function AIChatDialog({ isOpen, onOpenChange, language, t }: Props) {
                 value={input}
                 onChange={e => setInput(e.target.value)}
                 onKeyPress={e => e.key === 'Enter' && handleSend()}
-                placeholder="Digite sua dúvida aqui..."
+                placeholder={t.aiInputPlaceholder}
                 className="h-20 text-2xl rounded-2xl px-8 border-2 focus-visible:ring-primary flex-1"
               />
               <Button 
-                onClick={handleSend}
+                onClick={() => handleSend()}
                 disabled={isLoading}
                 className="h-20 w-24 rounded-2xl"
               >

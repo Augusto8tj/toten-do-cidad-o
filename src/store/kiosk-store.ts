@@ -57,7 +57,22 @@ export const translations = {
     adminPanel: "Painel Administrativo",
     unit: "Unidade",
     language: "Idioma",
-    emergency: "ALERTA DE EMERGÊNCIA"
+    emergency: "ALERTA DE EMERGÊNCIA",
+    aiAssistantTitle: "Assistente Rio Claro",
+    aiAssistantSubtitle: "Inteligência Artificial da Prefeitura",
+    aiGreeting: "Como posso ajudar você hoje em Rio Claro?",
+    aiSuggestions: ['Como pagar IPTU?', 'Onde tem vacinação?', 'Horário da Prefeitura', 'Telefone Ouvidoria'],
+    aiInputPlaceholder: "Digite sua dúvida aqui...",
+    iptuTitle: "IPTU",
+    iptuDesc: "Emita a 2ª via do seu IPTU de Rio Claro.",
+    certTitle: "Certidões",
+    certDesc: "Certidões negativas e documentos municipais.",
+    ouvidTitle: "Ouvidoria",
+    ouvidDesc: "Fale com a Prefeitura: sugestões ou reclamações.",
+    saudeTitle: "Agendamento Saúde",
+    saudeDesc: "Marque consultas nas unidades de Rio Claro.",
+    askAi: "Perguntar à IA",
+    errorAi: "Desculpe, tive um problema ao processar sua dúvida. Tente novamente."
   },
   en: {
     appName: "Citizen Link",
@@ -73,7 +88,22 @@ export const translations = {
     adminPanel: "Admin Panel",
     unit: "Unit",
     language: "Language",
-    emergency: "EMERGENCY ALERT"
+    emergency: "EMERGENCY ALERT",
+    aiAssistantTitle: "Rio Claro Assistant",
+    aiAssistantSubtitle: "City Hall Artificial Intelligence",
+    aiGreeting: "How can I help you today in Rio Claro?",
+    aiSuggestions: ['How to pay IPTU?', 'Where is vaccination?', 'City Hall Hours', 'Ombudsman Phone'],
+    aiInputPlaceholder: "Type your question here...",
+    iptuTitle: "Property Tax (IPTU)",
+    iptuDesc: "Issue a duplicate of your property tax.",
+    certTitle: "Certificates",
+    certDesc: "Negative certificates and city documents.",
+    ouvidTitle: "Ombudsman",
+    ouvidDesc: "Talk to City Hall: suggestions or complaints.",
+    saudeTitle: "Health Booking",
+    saudeDesc: "Book appointments in Rio Claro units.",
+    askAi: "Ask AI",
+    errorAi: "Sorry, I had trouble processing your question. Try again soon."
   },
   es: {
     appName: "Enlace del Ciudadano",
@@ -89,7 +119,22 @@ export const translations = {
     adminPanel: "Panel Administrativo",
     unit: "Unidad",
     language: "Idioma",
-    emergency: "ALERTA DE EMERGENCIA"
+    emergency: "ALERTA DE EMERGENCIA",
+    aiAssistantTitle: "Asistente Rio Claro",
+    aiAssistantSubtitle: "Inteligencia Artificial de la Alcaldía",
+    aiGreeting: "¿Cómo puedo ayudarte hoy en Rio Claro?",
+    aiSuggestions: ['¿Cómo pagar IPTU?', '¿Dónde hay vacunación?', 'Horario de Alcaldía', 'Teléfono Defensoría'],
+    aiInputPlaceholder: "Escriba sua duda aquí...",
+    iptuTitle: "Impuesto (IPTU)",
+    iptuDesc: "Emita el duplicado de su impuesto predial.",
+    certTitle: "Certificados",
+    certDesc: "Certificados negativos y documentos municipales.",
+    ouvidTitle: "Defensoría",
+    ouvidDesc: "Hable con la Alcaldía: sugerencias o quejas.",
+    saudeTitle: "Citas Médicas",
+    saudeDesc: "Reserve citas en las unidades de Rio Claro.",
+    askAi: "Preguntar a la IA",
+    errorAi: "Lo siento, tuve un problema al procesar su consulta. Inténtelo de nuevo."
   }
 };
 

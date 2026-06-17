@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect, useCallback } from 'react'
@@ -117,6 +118,7 @@ export default function Home() {
               updateEmergency={store.updateEmergency}
               screensaverItems={store.screensaverItems}
               addScreensaver={store.addScreensaver}
+              deleteScreensaver={store.deleteScreensaver}
             />
           )}
         </div>

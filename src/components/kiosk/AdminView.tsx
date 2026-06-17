@@ -15,6 +15,17 @@ import { Plus, Trash2, Megaphone, Newspaper, Layout, Sparkles, AlertTriangle, Da
 import { useToast } from "@/hooks/use-toast"
 import { generateNewsContent } from '@/ai/flows/admin-news-content-generator'
 import { cn } from '@/lib/utils'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 interface Props {
   news: any[];
@@ -24,6 +35,7 @@ interface Props {
   updateEmergency: (active: boolean, message: string) => void;
   screensaverItems: any[];
   addScreensaver: (item: any) => void;
+  deleteScreensaver: (id: string) => void;
 }
 
 const MOCK_AUDIT_LOGS = [
@@ -36,7 +48,16 @@ const MOCK_AUDIT_LOGS = [
   { id: 7, date: '10/03/2024 08:45', action: 'Configuração', detail: 'Idioma Espanhol (ES) atualizado para V1.2', user: 'Comunicação' },
 ];
 
-export function AdminView({ news, addNews, deleteNews, emergencyAlert, updateEmergency, screensaverItems, addScreensaver }: Props) {
+export function AdminView({ 
+  news, 
+  addNews, 
+  deleteNews, 
+  emergencyAlert, 
+  updateEmergency, 
+  screensaverItems, 
+  addScreensaver,
+  deleteScreensaver
+}: Props) {
   const { toast } = useToast();
   const [newNews, setNewNews] = useState({ title: '', content: '', imageUrl: '' });
   const [newSlide, setNewSlide] = useState({ imageUrl: '', caption: '' });
@@ -195,14 +216,37 @@ export function AdminView({ news, addNews, deleteNews, emergencyAlert, updateEme
                                <p className="text-sm text-muted-foreground">{n.date}</p>
                             </div>
                           </div>
-                          <Button 
-                            variant="destructive" 
-                            size="icon" 
-                            className="h-12 w-12 rounded-xl"
-                            onClick={() => deleteNews(n.id)}
-                          >
-                            <Trash2 />
-                          </Button>
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button 
+                                variant="destructive" 
+                                size="icon" 
+                                className="h-12 w-12 rounded-xl"
+                              >
+                                <Trash2 />
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent className="rounded-[2rem] border-4">
+                              <AlertDialogHeader>
+                                <AlertDialogTitle className="text-2xl font-bold">Confirmar exclusão?</AlertDialogTitle>
+                                <AlertDialogDescription className="text-lg">
+                                  Esta ação removerá a notícia "{n.title}" permanentemente do totem de Rio Claro.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter className="gap-4">
+                                <AlertDialogCancel className="h-14 rounded-xl text-lg font-bold">Cancelar</AlertDialogCancel>
+                                <AlertDialogAction 
+                                  onClick={() => {
+                                    deleteNews(n.id);
+                                    toast({ title: "Excluído", description: "Notícia removida com sucesso." });
+                                  }}
+                                  className="h-14 rounded-xl text-lg font-bold bg-destructive hover:bg-destructive/90"
+                                >
+                                  Excluir Permanentemente
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
                         </div>
                       ))}
                    </div>
@@ -247,7 +291,33 @@ export function AdminView({ news, addNews, deleteNews, emergencyAlert, updateEme
                             <div key={item.id} className="aspect-video bg-slate-200 rounded-xl relative overflow-hidden group">
                                <Image src={item.imageUrl} alt="Slide" fill className="object-cover" />
                                <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                  <Button variant="destructive" size="icon" className="h-10 w-10"><Trash2/></Button>
+                                  <AlertDialog>
+                                    <AlertDialogTrigger asChild>
+                                      <Button variant="destructive" size="icon" className="h-12 w-12 rounded-xl">
+                                        <Trash2 />
+                                      </Button>
+                                    </AlertDialogTrigger>
+                                    <AlertDialogContent className="rounded-[2rem] border-4">
+                                      <AlertDialogHeader>
+                                        <AlertDialogTitle className="text-2xl font-bold">Remover slide?</AlertDialogTitle>
+                                        <AlertDialogDescription className="text-lg">
+                                          Este slide deixará de ser exibido na tela de descanso do totem.
+                                        </AlertDialogDescription>
+                                      </AlertDialogHeader>
+                                      <AlertDialogFooter className="gap-4">
+                                        <AlertDialogCancel className="h-14 rounded-xl text-lg font-bold">Cancelar</AlertDialogCancel>
+                                        <AlertDialogAction 
+                                          onClick={() => {
+                                            deleteScreensaver(item.id);
+                                            toast({ title: "Removido", description: "Slide removido do screensaver." });
+                                          }}
+                                          className="h-14 rounded-xl text-lg font-bold bg-destructive hover:bg-destructive/90"
+                                        >
+                                          Confirmar Remoção
+                                        </AlertDialogAction>
+                                      </AlertDialogFooter>
+                                    </AlertDialogContent>
+                                  </AlertDialog>
                                </div>
                             </div>
                           ))}

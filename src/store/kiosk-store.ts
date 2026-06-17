@@ -312,6 +312,12 @@ export function useKioskStore() {
     localStorage.setItem('civitas_news', JSON.stringify(updated));
   };
 
+  const deleteScreensaver = (id: string) => {
+    const updated = screensaverItems.filter(s => s.id !== id);
+    setScreensaverItems(updated);
+    localStorage.setItem('civitas_screensaver', JSON.stringify(updated));
+  };
+
   const t = translations[language];
 
   return {
@@ -320,7 +326,7 @@ export function useKioskStore() {
     wheelchairMode, setWheelchairMode,
     emergencyAlert, updateEmergency,
     news, addNews, deleteNews,
-    screensaverItems, addScreensaver,
+    screensaverItems, addScreensaver, deleteScreensaver,
     isInitialized, t
   };
 }

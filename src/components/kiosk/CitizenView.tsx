@@ -2,7 +2,7 @@
 "use client"
 
 import { useState, useEffect } from 'react'
-import { Building2, FileText, MessageSquare, Newspaper, Info, Search, Bot, ShieldCheck, Globe, TrendingUp, CloudSun, Calendar, X } from 'lucide-react'
+import { Building2, FileText, MessageSquare, Newspaper, Info, Search, Bot, ShieldCheck, Globe, TrendingUp, CloudSun, Calendar, X, LucideIcon } from 'lucide-react'
 import { Card, CardContent } from "@/components/ui/card"
 import { ServiceDialog } from './ServiceDialog'
 import { AIChatDialog } from './AIChatDialog'
@@ -17,7 +17,7 @@ import { cn } from '@/lib/utils'
 interface ServiceItem {
   id: string;
   title: string;
-  icon: any;
+  icon: LucideIcon;
   description: string;
   url: string;
   steps: string[];
@@ -113,7 +113,6 @@ export function CitizenView({ wheelchairMode, news, language, t }: Props) {
     <div className="relative w-full h-full overflow-y-auto overflow-x-hidden">
       <div className={mainContainerClasses}>
         
-        {/* Header - Hidden in wheelchair mode to save space */}
         {!wheelchairMode && (
           <div className="flex flex-col md:flex-row justify-between items-center md:items-end border-b pb-8 gap-6 mb-10">
             <div className="flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
@@ -150,7 +149,6 @@ export function CitizenView({ wheelchairMode, news, language, t }: Props) {
           </div>
         )}
 
-        {/* Search Bar - High prominence */}
         <div className="max-w-5xl mx-auto w-full mb-12">
           <div className="relative group">
             <Search className="absolute left-8 top-1/2 -translate-y-1/2 h-10 w-10 text-primary/40 group-focus-within:text-primary transition-colors" />
@@ -163,7 +161,6 @@ export function CitizenView({ wheelchairMode, news, language, t }: Props) {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 max-w-[1600px] mx-auto w-full">
-          {/* Main Services Area */}
           <div className="lg:col-span-8 space-y-10">
             <div className="flex items-center justify-between">
               <h2 className="text-3xl md:text-4xl font-headline font-bold flex items-center gap-4">
@@ -202,7 +199,6 @@ export function CitizenView({ wheelchairMode, news, language, t }: Props) {
             </div>
           </div>
 
-          {/* Sidebar News */}
           <div className="lg:col-span-4 space-y-10">
             <h2 className="text-3xl md:text-4xl font-headline font-bold flex items-center gap-4">
               <Newspaper className="h-10 w-10 text-primary" />
@@ -245,7 +241,6 @@ export function CitizenView({ wheelchairMode, news, language, t }: Props) {
         </div>
       </div>
 
-      {/* Dynamic Bottom Ticker */}
       <div 
         className="fixed bottom-0 left-0 right-0 h-28 bg-primary text-white flex items-center px-6 md:px-12 shadow-[0_-10px_40px_rgba(0,0,0,0.2)] z-[60] cursor-pointer active:bg-primary/90 transition-colors"
         onClick={() => news[tickerIndex] && setSelectedNewsDetail(news[tickerIndex])}
@@ -297,7 +292,6 @@ export function CitizenView({ wheelchairMode, news, language, t }: Props) {
         t={t}
       />
 
-      {/* Detail Dialog for individual news items */}
       <Dialog open={!!selectedNewsDetail} onOpenChange={(open) => !open && setSelectedNewsDetail(null)}>
         <DialogContent className="max-w-4xl rounded-[3rem] p-0 overflow-hidden border-8 border-primary shadow-2xl">
           {selectedNewsDetail && (

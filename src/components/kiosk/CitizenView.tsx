@@ -5,6 +5,7 @@ import { Building2, FileText, MessageSquare, Newspaper, Info, Search, Bot, Shiel
 import { Card, CardContent } from "@/components/ui/card"
 import { ServiceDialog } from './ServiceDialog'
 import { AIChatDialog } from './AIChatDialog'
+import { NewsDialog } from './NewsDialog'
 import { NewsItem, Language } from '@/store/kiosk-store'
 import Image from 'next/image'
 import { Input } from '@/components/ui/input'
@@ -30,6 +31,7 @@ interface Props {
 export function CitizenView({ wheelchairMode, news, language, t }: Props) {
   const [selectedService, setSelectedService] = useState<any | null>(null);
   const [isAiOpen, setIsAiOpen] = useState(false);
+  const [isNewsOpen, setIsNewsOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState<Date | null>(null);
   const [tickerIndex, setTickerIndex] = useState(0);
   const services = GET_SERVICES(t);
@@ -173,7 +175,11 @@ export function CitizenView({ wheelchairMode, news, language, t }: Props) {
                   </div>
                 </Card>
               ))}
-              <Button variant="outline" className="kiosk-button w-full border-4 text-2xl h-24 mt-4">
+              <Button 
+                variant="outline" 
+                className="kiosk-button w-full border-4 text-2xl h-24 mt-4"
+                onClick={() => setIsNewsOpen(true)}
+              >
                 {t.allNews}
               </Button>
             </div>
@@ -220,6 +226,13 @@ export function CitizenView({ wheelchairMode, news, language, t }: Props) {
         isOpen={isAiOpen}
         onOpenChange={setIsAiOpen}
         language={language}
+        t={t}
+      />
+
+      <NewsDialog 
+        isOpen={isNewsOpen}
+        onOpenChange={setIsNewsOpen}
+        news={news}
         t={t}
       />
     </div>

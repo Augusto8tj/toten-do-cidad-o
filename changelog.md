@@ -3,6 +3,11 @@
 
 Todas as alterações notáveis neste projeto serão documentadas neste arquivo.
 
+## [1.2.4] - 2024-03-15
+### Adicionado
+- **Feed de Notícias Completo**: Ativação do botão "Ver Todas as Notícias" com um novo componente `NewsDialog` que permite ao cidadão navegar por todo o histórico de atualizações do município.
+- **UX de Notícias**: Layout de grade aprimorado para o histórico de notícias, com imagens maiores e visualização clara de datas.
+
 ## [1.2.3] - 2024-03-14
 ### Melhorado
 - **Acessibilidade Visual**: Refinamento do Modo Alto Contraste, substituindo o amarelo vibrante por um Ciano de alta visibilidade, resultando em uma interface mais profissional e menos cansativa.

@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Plus, Trash2, Megaphone, Newspaper, Layout, Sparkles, AlertTriangle, Database, Search, History, ShieldCheck } from "lucide-react"
+import { Plus, Trash2, Megaphone, Newspaper, Layout, Sparkles, AlertTriangle, Database, Search, History, ShieldCheck, Edit2 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { generateNewsContent } from '@/ai/flows/admin-news-content-generator'
 import { cn } from '@/lib/utils'
@@ -26,10 +26,18 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog"
 
 interface Props {
   news: any[];
   addNews: (n: any) => void;
+  updateNews: (id: string, n: any) => void;
   deleteNews: (id: string) => void;
   emergencyAlert: any;
   updateEmergency: (active: boolean, message: string) => void;
@@ -50,7 +58,8 @@ const MOCK_AUDIT_LOGS = [
 
 export function AdminView({ 
   news, 
-  addNews, 
+  addNews,
+  updateNews,
   deleteNews, 
   emergencyAlert, 
   updateEmergency, 
@@ -60,6 +69,7 @@ export function AdminView({
 }: Props) {
   const { toast } = useToast();
   const [newNews, setNewNews] = useState({ title: '', content: '', imageUrl: '' });
+  const [editingNews, setEditingNews] = useState<any | null>(null);
   const [newSlide, setNewSlide] = useState({ imageUrl: '', caption: '' });
   const [isGenerating, setIsGenerating] = useState(false);
   const [currentTime, setCurrentTime] = useState<string | null>(null);
@@ -79,6 +89,16 @@ export function AdminView({
     toast({ title: "Sucesso", description: "Notícia publicada com sucesso!" });
   };
 
+  const handleUpdateNews = () => {
+    if (!editingNews.title || !editingNews.content) {
+      toast({ title: "Erro", description: "Título e conteúdo são obrigatórios." });
+      return;
+    }
+    updateNews(editingNews.id, editingNews);
+    setEditingNews(null);
+    toast({ title: "Sucesso", description: "Notícia atualizada com sucesso!" });
+  };
+
   const handleAddSlide = () => {
     if (!newSlide.imageUrl) return;
     addScreensaver(newSlide);
@@ -86,12 +106,18 @@ export function AdminView({
     toast({ title: "Sucesso", description: "Slide adicionado ao Screensaver." });
   };
 
-  const handleAiOptimize = async () => {
-    if (!newNews.content) return;
+  const handleAiOptimize = async (isEditing: boolean = false) => {
+    const content = isEditing ? editingNews?.content : newNews.content;
+    if (!content) return;
+    
     setIsGenerating(true);
     try {
-      const result = await generateNewsContent({ articleContent: newNews.content });
-      setNewNews({ ...newNews, title: result.headline, content: result.summary });
+      const result = await generateNewsContent({ articleContent: content });
+      if (isEditing) {
+        setEditingNews({ ...editingNews, title: result.headline, content: result.summary });
+      } else {
+        setNewNews({ ...newNews, title: result.headline, content: result.summary });
+      }
       toast({ title: "AI Otimizada", description: "Título e resumo gerados para o totem de Rio Claro." });
     } catch (e) {
       toast({ title: "Erro AI", description: "Não foi possível gerar conteúdo via AI." });
@@ -168,7 +194,7 @@ export function AdminView({
                     variant="ghost" 
                     size="sm" 
                     className="text-primary font-bold"
-                    onClick={handleAiOptimize}
+                    onClick={() => handleAiOptimize(false)}
                     disabled={isGenerating}
                   >
                     <Sparkles className="mr-2 h-4 w-4" />
@@ -211,42 +237,52 @@ export function AdminView({
                             <div className="w-16 h-16 bg-slate-200 rounded-lg overflow-hidden relative">
                                <Image src={n.imageUrl} alt={n.title} fill className="object-cover" />
                             </div>
-                            <div>
+                            <div className="flex-1 min-w-0">
                                <h4 className="font-bold text-xl line-clamp-1">{n.title}</h4>
                                <p className="text-sm text-muted-foreground">{n.date}</p>
                             </div>
                           </div>
-                          <AlertDialog>
-                            <AlertDialogTrigger asChild>
-                              <Button 
-                                variant="destructive" 
-                                size="icon" 
-                                className="h-12 w-12 rounded-xl"
-                              >
-                                <Trash2 />
-                              </Button>
-                            </AlertDialogTrigger>
-                            <AlertDialogContent className="rounded-[2rem] border-4">
-                              <AlertDialogHeader>
-                                <AlertDialogTitle className="text-2xl font-bold">Confirmar exclusão?</AlertDialogTitle>
-                                <AlertDialogDescription className="text-lg">
-                                  Esta ação removerá a notícia "{n.title}" permanentemente do totem de Rio Claro.
-                                </AlertDialogDescription>
-                              </AlertDialogHeader>
-                              <AlertDialogFooter className="gap-4">
-                                <AlertDialogCancel className="h-14 rounded-xl text-lg font-bold">Cancelar</AlertDialogCancel>
-                                <AlertDialogAction 
-                                  onClick={() => {
-                                    deleteNews(n.id);
-                                    toast({ title: "Excluído", description: "Notícia removida com sucesso." });
-                                  }}
-                                  className="h-14 rounded-xl text-lg font-bold bg-destructive hover:bg-destructive/90"
+                          <div className="flex gap-2">
+                            <Button 
+                              variant="outline" 
+                              size="icon" 
+                              className="h-12 w-12 rounded-xl border-2"
+                              onClick={() => setEditingNews(n)}
+                            >
+                              <Edit2 className="h-6 w-6" />
+                            </Button>
+                            <AlertDialog>
+                              <AlertDialogTrigger asChild>
+                                <Button 
+                                  variant="destructive" 
+                                  size="icon" 
+                                  className="h-12 w-12 rounded-xl"
                                 >
-                                  Excluir Permanentemente
-                                </AlertDialogAction>
-                              </AlertDialogFooter>
-                            </AlertDialogContent>
-                          </AlertDialog>
+                                  <Trash2 className="h-6 w-6" />
+                                </Button>
+                              </AlertDialogTrigger>
+                              <AlertDialogContent className="rounded-[2rem] border-4">
+                                <AlertDialogHeader>
+                                  <AlertDialogTitle className="text-2xl font-bold">Confirmar exclusão?</AlertDialogTitle>
+                                  <AlertDialogDescription className="text-lg">
+                                    Esta ação removerá a notícia "{n.title}" permanentemente do totem de Rio Claro.
+                                  </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter className="gap-4">
+                                  <AlertDialogCancel className="h-14 rounded-xl text-lg font-bold">Cancelar</AlertDialogCancel>
+                                  <AlertDialogAction 
+                                    onClick={() => {
+                                      deleteNews(n.id);
+                                      toast({ title: "Excluído", description: "Notícia removida com sucesso." });
+                                    }}
+                                    className="h-14 rounded-xl text-lg font-bold bg-destructive hover:bg-destructive/90"
+                                  >
+                                    Excluir Permanentemente
+                                  </AlertDialogAction>
+                                </AlertDialogFooter>
+                              </AlertDialogContent>
+                            </AlertDialog>
+                          </div>
                         </div>
                       ))}
                    </div>
@@ -458,6 +494,61 @@ export function AdminView({
            </Card>
         </TabsContent>
       </Tabs>
+
+      {/* Diálogo de Edição de Notícia */}
+      <Dialog open={!!editingNews} onOpenChange={(open) => !open && setEditingNews(null)}>
+        <DialogContent className="max-w-4xl rounded-[2rem] p-10 gap-8">
+          <DialogHeader>
+            <DialogTitle className="text-3xl font-headline font-bold">Editar Notícia</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-6">
+            <div className="space-y-2">
+              <Label className="text-xl font-bold">Título da Notícia</Label>
+              <Input 
+                value={editingNews?.title || ''}
+                onChange={e => setEditingNews({...editingNews, title: e.target.value})}
+                className="h-16 text-xl rounded-xl"
+              />
+            </div>
+            <div className="space-y-2">
+              <div className="flex justify-between">
+                <Label className="text-xl font-bold">Conteúdo do Artigo</Label>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="text-primary font-bold"
+                  onClick={() => handleAiOptimize(true)}
+                  disabled={isGenerating}
+                >
+                  <Sparkles className="mr-2 h-4 w-4" />
+                  {isGenerating ? "Gerando..." : "Otimizar via AI"}
+                </Button>
+              </div>
+              <Textarea 
+                className="min-h-[200px] text-xl rounded-xl"
+                value={editingNews?.content || ''}
+                onChange={e => setEditingNews({...editingNews, content: e.target.value})}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label className="text-xl font-bold">URL da Imagem</Label>
+              <Input 
+                value={editingNews?.imageUrl || ''}
+                onChange={e => setEditingNews({...editingNews, imageUrl: e.target.value})}
+                className="h-16 text-xl rounded-xl"
+              />
+            </div>
+          </div>
+          <DialogFooter className="gap-4">
+            <Button variant="outline" onClick={() => setEditingNews(null)} className="h-16 px-10 text-xl font-bold rounded-xl">
+              Cancelar
+            </Button>
+            <Button onClick={handleUpdateNews} className="h-16 px-10 text-xl font-bold rounded-xl">
+              Salvar Alterações
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

@@ -113,6 +113,7 @@ export default function Home() {
             <AdminView 
               news={store.news}
               addNews={store.addNews}
+              updateNews={store.updateNews}
               deleteNews={store.deleteNews}
               emergencyAlert={store.emergencyAlert}
               updateEmergency={store.updateEmergency}

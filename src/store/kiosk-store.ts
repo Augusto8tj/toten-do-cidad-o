@@ -244,7 +244,7 @@ export const translations = {
     saudeSteps: ["Presente su Carnet de Salud SUS", "Elija la unidad de salud más cercana", "Confirme el horario disponible en la red municipal"],
     transpTitle: "Transparencia",
     transpDesc: "Monitorear la gestão de los recursos públicos municipales.",
-    transpSteps: ["Acceda a ingresos y gastos en tiempo real", "Consulte licitaciones abiertas", "Siga los salarios de los empleados municipales"],
+    transpSteps: ["Acceda a ingresos y gastos en tempo real", "Consulte licitaciones abiertas", "Siga los salarios de los empleados municipales"],
     officialTitle: "Sitio Oficial",
     officialDesc: "Acceda al portal completo de la Alcaldía de Rio Claro.",
     officialSteps: ["Portal oficial con noticias institucionales", "Enlaces al diario oficial y edictos", "Teléfonos de todas las secretarías"],
@@ -293,6 +293,12 @@ export function useKioskStore() {
     localStorage.setItem('civitas_news', JSON.stringify(updated));
   };
 
+  const updateNews = (id: string, item: Partial<NewsItem>) => {
+    const updated = news.map(n => n.id === id ? { ...n, ...item } : n);
+    setNews(updated);
+    localStorage.setItem('civitas_news', JSON.stringify(updated));
+  };
+
   const addScreensaver = (item: Omit<ScreensaverItem, 'id'>) => {
     const newItem = { ...item, id: Math.random().toString(36).substr(2, 9) };
     const updated = [newItem, ...screensaverItems];
@@ -325,7 +331,7 @@ export function useKioskStore() {
     highContrast, setHighContrast,
     wheelchairMode, setWheelchairMode,
     emergencyAlert, updateEmergency,
-    news, addNews, deleteNews,
+    news, addNews, updateNews, deleteNews,
     screensaverItems, addScreensaver, deleteScreensaver,
     isInitialized, t
   };
